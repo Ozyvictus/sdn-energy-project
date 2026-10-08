@@ -6,14 +6,50 @@ and (later) the optimization algorithm. Change values here rather than
 hunting through multiple files.
 """
 
-# OpenFlow port the os-ken controller listens on. 6653 is the OpenFlow 1.3
-# standard port. If your controller log shows it bound to a different port
-# on startup, change this to match -- topology/mininet_topo.py imports this
-# constant so both sides always agree.
 OPENFLOW_PORT = 6653
 
-# --- Placeholders for later milestones (not used yet) ---
-# Once we add link/switch sleeping, thresholds like these will live here
-# so the algorithm module and any monitoring code read the same values.
-LOW_UTILIZATION_THRESHOLD = 0.10   # e.g. consider a link "idle" below 10%
-QOS_MAX_LATENCY_MS = 50            # placeholder QoS constraint
+# Link capacities
+LINK_CAPACITY_MBPS = {
+
+    # Core-to-core link
+    ("s1", "s2"): 1000,
+
+    # Core-to-edge links
+    ("s1", "s3"): 1000,
+    ("s2", "s3"): 1000,
+
+    ("s1", "s4"): 1000,
+    ("s2", "s4"): 1000,
+
+    ("s1", "s5"): 1000,
+    ("s2", "s5"): 1000,
+
+    ("s1", "s6"): 1000,
+    ("s2", "s6"): 1000,
+
+    # Edge-to-host links
+    ("s3", "h1"): 100,
+    ("s3", "h2"): 100,
+
+    ("s4", "h3"): 100,
+    ("s4", "h4"): 100,
+
+    ("s5", "h5"): 100,
+    ("s5", "h6"): 100,
+
+    ("s6", "h7"): 100,
+    ("s6", "h8"): 100,
+}
+
+def get_link_capacity(node1, node2):
+    """
+    Return link capacity in Mbps regardless of link direction.
+    """
+
+    if (node1, node2) in LINK_CAPACITY_MBPS:
+        return LINK_CAPACITY_MBPS[(node1, node2)]
+
+    if (node2, node1) in LINK_CAPACITY_MBPS:
+        return LINK_CAPACITY_MBPS[(node2, node1)]
+
+    return None

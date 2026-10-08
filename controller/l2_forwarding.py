@@ -2,17 +2,8 @@
 controller/l2_forwarding.py
 
 Minimal L2 learning switch -- os-ken 4.2.2 compatible.
-This is the Milestone-1 sanity check app: confirms the controller can
-load, listen for OpenFlow connections, and handle packet_in events.
-
-This is deliberately "dumb" -- it floods on any unknown destination and
-learns MAC-to-port mappings as traffic arrives. It has no awareness of
-utilization, energy, or topology structure. Later milestones will add:
-  - topology/link discovery (feeding algorithm/optimizer.py)
-  - port statistics polling (feeding algorithm/energy_model.py)
-  - actual shortest-path routing (replacing the flood behavior below,
-    at which point mininet_topo.py's stp=True can likely be dropped
-    since our own routing logic will prevent loops instead of OVS's STP)
+Milestone 1 sanity-check app: confirms the controller can load, listen
+for OpenFlow connections, and handle packet_in events.
 """
 from os_ken.base import app_manager
 from os_ken.controller import ofp_event
@@ -35,7 +26,6 @@ class L2Switch(app_manager.OSKenApp):
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
 
-        # install table-miss flow entry: send unmatched packets to controller
         match = parser.OFPMatch()
         actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
                                            ofproto.OFPCML_NO_BUFFER)]
