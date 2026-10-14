@@ -32,11 +32,12 @@ Architecture:
 
 Energy model:
 
-    Modeled Power = Active Ports × 0.2 W
+    Modeled power is calculated from configured switch/link operational states,
+    independently of traffic-active-port statistics.
 
 IMPORTANT:
-    This is a SOFTWARE MODEL, not a measurement of physical
-    electrical power.
+
+    Results are literature-parameterized estimates, not physical watt-meter readings.
 
 At this milestone:
 
@@ -54,6 +55,9 @@ to remain active for resilience.
 """
 
 import time
+import json
+import os
+import uuid
 
 from os_ken.base import app_manager
 from os_ken.controller import ofp_event
@@ -67,10 +71,8 @@ from os_ken.lib import hub
 from os_ken.topology import event as topo_event
 from os_ken.topology.api import get_switch, get_link
 
-from algorithm.energy_model import (
-    record_state,
-    generate_all_graphs
-)
+from algorithm.component_energy_model import ComponentEnergyModel
+from algorithm.active_port_metrics import record_active_port_metrics
 
 from algorithm.traffic_utilisation import (
     record_link_utilisation,
@@ -86,20 +88,23 @@ from config import get_link_capacity
 # ================================================================
 
 # How often a complete monitoring cycle starts.
-POLL_INTERVAL_SECONDS = 10
+POLL_INTERVAL_SECONDS = 5
 
 # Maximum amount of time to wait for all switch replies.
 #
 # Normally all OVS switches should respond very quickly.
 # This prevents one disconnected/unresponsive switch from
 # blocking the energy calculation forever.
-CYCLE_TIMEOUT_SECONDS = 3
+CYCLE_TIMEOUT_SECONDS = 2
 
 # Number of bytes that must have been transferred for a port to
 # be considered traffic-active.
 #
 # 0 means any increase in RX/TX bytes makes the port active.
 TRAFFIC_THRESHOLD_BYTES = 0
+
+CYCLE_SNAPSHOT_PATH = "/tmp/sdn_energy_cycle.json"
+QOS_REQUEST_PATH = "/tmp/sdn_energy_qos_request.json"
 
 
 class TopologyMonitor(app_manager.OSKenApp):
@@ -160,6 +165,8 @@ class TopologyMonitor(app_manager.OSKenApp):
         # Unique number for each monitoring cycle.
         self.cycle_number = 0
         self.current_link_rates = {}
+        self.session_id = uuid.uuid4().hex
+        self.component_energy_model = ComponentEnergyModel()
         self.port_to_link = {}
 
         # ==========================================================
@@ -431,6 +438,8 @@ class TopologyMonitor(app_manager.OSKenApp):
             # Start a new monitoring cycle.
             # ------------------------------------------------------
 
+            cycle_loop_started = time.monotonic()
+
             self.cycle_number += 1
 
             expected_dpids = {
@@ -439,6 +448,7 @@ class TopologyMonitor(app_manager.OSKenApp):
 
             self.current_cycle = {
                 "cycle": self.cycle_number,
+                "phase": "energy" if self.cycle_number % 2 == 1 else "qos",
                 "start_time": time.time(),
                 "expected_dpids": expected_dpids,
                 "received_dpids": set(),
@@ -446,6 +456,9 @@ class TopologyMonitor(app_manager.OSKenApp):
                 "traffic_rates": {},
                 "timed_out": False
                 }
+
+            if self.current_cycle["phase"] == "qos":
+                self._publish_qos_request(self.current_cycle)
 
             # Reset link-rate collection for this cycle.
             self._refresh_topology_mapping()
@@ -545,12 +558,10 @@ class TopologyMonitor(app_manager.OSKenApp):
                 self._finalize_cycle()
 
             # ------------------------------------------------------
-            # Wait before beginning the next cycle.
-            # ------------------------------------------------------
-
-            hub.sleep(
-                POLL_INTERVAL_SECONDS
-            )
+            # Keep cycle start-to-start cadence at five seconds.
+            remaining = POLL_INTERVAL_SECONDS - (time.monotonic() - cycle_loop_started)
+            if remaining > 0:
+                hub.sleep(remaining)
 
     # ================================================================
     # REQUEST PORT STATISTICS
@@ -1007,6 +1018,70 @@ class TopologyMonitor(app_manager.OSKenApp):
     # FINALIZE MONITORING CYCLE
     # ================================================================
 
+    def _publish_qos_request(self, cycle):
+        """Signal Mininet to begin active probes during this QoS phase."""
+        request = {
+            "session_id": self.session_id,
+            "cycle": int(cycle["cycle"]),
+            "phase": cycle["phase"],
+            "timestamp_epoch": time.time(),
+            "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "interval_seconds": POLL_INTERVAL_SECONDS,
+        }
+        temporary_path = f"{QOS_REQUEST_PATH}.{os.getpid()}.tmp"
+        with open(temporary_path, "w", encoding="utf-8") as handle:
+            json.dump(request, handle)
+        os.replace(temporary_path, QOS_REQUEST_PATH)
+        self.logger.info(
+            "Published QoS phase request: cycle=%d path=%s",
+            cycle["cycle"], QOS_REQUEST_PATH,
+        )
+
+    def _publish_cycle_snapshot(self, cycle):
+        """Atomically publish the completed 5-second cycle for the Mininet QoS worker."""
+        topology_switches = get_switch(self, None)
+        topology_links = get_link(self, None)
+        link_metrics = []
+        for link_name, rates in sorted(self.current_link_rates.items()):
+            if not rates:
+                continue
+            src, dst = link_name.split("-", 1)
+            capacity_mbps = get_link_capacity(src, dst)
+            if capacity_mbps is None:
+                continue
+            rate_mbps = max(rates)
+            link_metrics.append({
+                "link": link_name,
+                "traffic_mbps": rate_mbps,
+                "capacity_mbps": capacity_mbps,
+                "utilization_percent": (rate_mbps / capacity_mbps) * 100.0,
+            })
+
+        snapshot = {
+            "session_id": self.session_id,
+            "cycle": int(cycle["cycle"]),
+            "phase": cycle["phase"],
+            "timestamp_epoch": time.time(),
+            "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "interval_seconds": POLL_INTERVAL_SECONDS,
+            "switches": sorted({f"s{sw.dp.id}" for sw in topology_switches}),
+            "links": sorted({
+                self._link_name(self._canonical_link(link.src.dpid, link.dst.dpid))
+                for link in topology_links
+            }),
+            "network_active_ports": sum(cycle["active_ports"].values()),
+            "link_metrics": link_metrics,
+            "energy": cycle.get("energy_result", {}),
+        }
+        temporary_path = f"{CYCLE_SNAPSHOT_PATH}.{os.getpid()}.tmp"
+        with open(temporary_path, "w", encoding="utf-8") as handle:
+            json.dump(snapshot, handle)
+        os.replace(temporary_path, CYCLE_SNAPSHOT_PATH)
+        self.logger.info(
+            "Published cycle snapshot: cycle=%d phase=%s path=%s",
+            cycle["cycle"], cycle["phase"], CYCLE_SNAPSHOT_PATH,
+        )
+
     def _finalize_cycle(self):
 
         cycle = self.current_cycle
@@ -1092,49 +1167,47 @@ class TopologyMonitor(app_manager.OSKenApp):
         # monitoring cycle.
         #
 
-        result = record_state(
+        # Record traffic-active port counts separately. These are traffic
+        # observations, not the input to the component power model.
+        record_active_port_metrics(
+            cycle=cycle["cycle"],
+            phase=cycle["phase"],
+            active_ports_by_switch=cycle["active_ports"],
+            session_id=self.session_id,
+        )
+
+        topology_switches = get_switch(self, None)
+        topology_links = get_link(self, None)
+        switch_names = [f"s{sw.dp.id}" for sw in topology_switches]
+        link_names = [
+            (f"s{link.src.dpid}", f"s{link.dst.dpid}")
+            for link in topology_links
+        ]
+        self.component_energy_model.sync_topology(switch_names, link_names)
+        energy_result = self.component_energy_model.record_cycle(
+            cycle=cycle["cycle"],
+            duration_seconds=POLL_INTERVAL_SECONDS,
+            phase=cycle["phase"],
+            session_id=self.session_id,
+        )
+        cycle["energy_result"] = energy_result
+
+        self.logger.info(
+            "COMPONENT-STATE ENERGY | phase=%s | switches=%d active/%d sleeping | "
+            "links=%d active/%d sleeping | modeled_power=%.2f W | "
+            "interval_energy=%.6f Wh | cumulative_energy=%.6f Wh",
+            cycle["phase"],
+            energy_result["switches_active"],
+            energy_result["switches_sleeping"],
+            energy_result["links_active"],
+            energy_result["links_sleeping"],
+            energy_result["total_power_w"],
+            energy_result["interval_energy_wh"],
+            energy_result["cumulative_energy_wh"],
+        )
+        self.logger.info(
+            "Traffic-active ports remain a separate metric: %d",
             network_active_ports,
-            duration_seconds=POLL_INTERVAL_SECONDS
-        )
-
-        # ==========================================================
-        # ENERGY LOG
-        # ==========================================================
-
-        self.logger.info(
-            ""
-        )
-
-        self.logger.info(
-            "**************** ENERGY MODEL ****************"
-        )
-
-        self.logger.info(
-            "Active Ports       : %d",
-            result["active_ports"]
-        )
-
-        self.logger.info(
-            "Power Coefficient  : 0.2 W/port"
-        )
-
-        self.logger.info(
-            "Modeled Power      : %.4f W",
-            result["power_w"]
-        )
-
-        self.logger.info(
-            "Interval Energy    : %.8f Wh",
-            result["interval_energy_wh"]
-        )
-
-        self.logger.info(
-            "Cumulative Energy  : %.8f Wh",
-            result["cumulative_energy_wh"]
-        )
-
-        self.logger.info(
-            "***********************************************"
         )
 
         # ================================================================
@@ -1155,18 +1228,12 @@ class TopologyMonitor(app_manager.OSKenApp):
         )
 
 
-        # ================================================================
-        # ENERGY GRAPHS
-        # ================================================================
-
-        generate_all_graphs()
-
-        self.logger.info(
-            "Energy graphs updated in ./graphs/"
-        )
+        # Component energy is recorded in data/component_energy.csv.
 
         # ==========================================================
         # CLEAR CURRENT CYCLE
         # ==========================================================
+
+        self._publish_cycle_snapshot(cycle)
 
         self.current_cycle = None

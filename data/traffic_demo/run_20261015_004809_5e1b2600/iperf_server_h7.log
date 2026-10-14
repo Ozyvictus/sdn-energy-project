@@ -1,0 +1,97 @@
+-----------------------------------------------------------
+Server listening on 54776 (test #1)
+-----------------------------------------------------------
+Accepted connection from 10.0.0.3, port 47176
+[  7] local 10.0.0.7 port 54776 connected to 10.0.0.3 port 49831
+[ ID] Interval           Transfer     Bitrate         Jitter    Lost/Total Datagrams
+[  7]   0.00-1.79   sec  1.12 MBytes  5.28 Mbits/sec  1.169 ms  27/841 (3.2%)  
+[  7]   1.79-2.00   sec  1.06 MBytes  40.8 Mbits/sec  0.511 ms  16/782 (2%)  
+[  7]   2.00-3.21   sec   240 KBytes  1.64 Mbits/sec  1.756 ms  0/170 (0%)  
+[  7]   3.21-4.80   sec  2.04 MBytes  10.7 Mbits/sec  0.994 ms  115/1593 (7.2%)  
+[  7]   4.80-5.00   sec  1.22 MBytes  52.1 Mbits/sec  0.791 ms  43/930 (4.6%)  
+[  7]   5.00-6.00   sec   250 KBytes  2.05 Mbits/sec  0.386 ms  0/177 (0%)  
+[  7]   6.00-7.00   sec  91.9 KBytes   753 Kbits/sec  1.357 ms  0/65 (0%)  
+[  7]   7.00-8.00   sec  2.40 MBytes  20.1 Mbits/sec  0.300 ms  0/1741 (0%)  
+[  7]   8.00-9.00   sec  1.30 MBytes  10.9 Mbits/sec  0.531 ms  0/938 (0%)  
+[  7]   9.00-10.00  sec  1.55 MBytes  13.0 Mbits/sec  0.676 ms  3/1127 (0.27%)  
+[  7]  10.00-11.79  sec   643 KBytes  2.95 Mbits/sec  0.332 ms  0/455 (0%)  
+[  7]  11.79-12.00  sec   225 KBytes  8.61 Mbits/sec  1.297 ms  0/159 (0%)  
+[  7]  12.00-13.00  sec   728 KBytes  5.97 Mbits/sec  0.631 ms  2/517 (0.39%)  
+[  7]  13.00-14.00  sec  1.48 MBytes  12.4 Mbits/sec  0.560 ms  18446744073709551614/1068 (-0.19%)  
+[  7]  14.00-15.00  sec  2.14 MBytes  17.9 Mbits/sec  0.200 ms  0/1550 (0%)  
+[  7]  15.00-16.00  sec  1.42 MBytes  11.9 Mbits/sec  8.411 ms  0/1025 (0%)  
+[  7]  16.00-17.10  sec   701 KBytes  5.23 Mbits/sec  0.609 ms  0/496 (0%)  
+[  7]  17.10-18.00  sec  1.73 MBytes  16.1 Mbits/sec  0.448 ms  0/1251 (0%)  
+[  7]  18.00-19.08  sec  1.81 MBytes  14.1 Mbits/sec  0.148 ms  31/1339 (2.3%)  
+[  7]  19.08-20.00  sec  1.05 MBytes  9.52 Mbits/sec  2.643 ms  0/758 (0%)  
+[  7]  20.00-20.69  sec   163 KBytes  1.94 Mbits/sec  3.623 ms  0/115 (0%)  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Jitter    Lost/Total Datagrams
+[SUM]  0.0-20.7 sec  798 datagrams received out-of-order
+[  7]   0.00-20.69  sec  23.3 MBytes  9.44 Mbits/sec  3.623 ms  235/17097 (1.4%)  receiver
+-----------------------------------------------------------
+Server listening on 54776 (test #2)
+-----------------------------------------------------------
+Accepted connection from 10.0.0.3, port 48712
+[  7] local 10.0.0.7 port 54776 connected to 10.0.0.3 port 44865
+[ ID] Interval           Transfer     Bitrate         Jitter    Lost/Total Datagrams
+[  7]   0.00-1.15   sec  1.95 MBytes  14.3 Mbits/sec  0.670 ms  2/1416 (0.14%)  
+[  7]   1.15-2.00   sec  3.98 MBytes  39.1 Mbits/sec  0.915 ms  0/2880 (0%)  
+[  7]   2.00-3.00   sec  2.40 MBytes  20.1 Mbits/sec  0.312 ms  2/1739 (0.12%)  
+[  7]   3.00-4.00   sec  2.79 MBytes  23.3 Mbits/sec  0.228 ms  0/2018 (0%)  
+[  7]   4.00-5.00   sec  3.67 MBytes  30.8 Mbits/sec  0.328 ms  0/2657 (0%)  
+[  7]   5.00-6.08   sec  2.94 MBytes  22.9 Mbits/sec  0.754 ms  0/2127 (0%)  
+[  7]   6.08-7.00   sec  1.86 MBytes  16.9 Mbits/sec  0.382 ms  0/1350 (0%)  
+[  7]   7.00-8.00   sec  1.52 MBytes  12.7 Mbits/sec  0.158 ms  0/1099 (0%)  
+[  7]   8.00-9.00   sec  5.64 MBytes  47.4 Mbits/sec  0.683 ms  41/4122 (0.99%)  
+[  7]   9.00-10.00  sec   810 KBytes  6.64 Mbits/sec  0.132 ms  0/573 (0%)  
+[  7]  10.00-11.00  sec  3.59 MBytes  30.1 Mbits/sec  0.322 ms  0/2603 (0%)  
+[  7]  11.00-12.00  sec  3.27 MBytes  27.5 Mbits/sec  0.141 ms  0/2367 (0%)  
+[  7]  12.00-13.89  sec  3.70 MBytes  16.4 Mbits/sec  53.235 ms  0/2681 (0%)  
+[  7]  13.89-14.00  sec   848 KBytes  64.3 Mbits/sec  0.249 ms  0/600 (0%)  
+[  7]  14.00-15.00  sec  1.39 MBytes  11.6 Mbits/sec  0.125 ms  0/1005 (0%)  
+[  7]  15.00-16.00  sec  4.62 MBytes  38.9 Mbits/sec  0.312 ms  42/3391 (1.2%)  
+[  7]  16.00-17.00  sec   143 KBytes  1.17 Mbits/sec  0.338 ms  0/101 (0%)  
+[  7]  17.00-18.00  sec  1.75 MBytes  14.7 Mbits/sec  0.237 ms  26/1295 (2%)  
+[  7]  18.00-19.00  sec  1.99 MBytes  16.7 Mbits/sec  0.640 ms  43/1481 (2.9%)  
+[  7]  19.00-20.00  sec  4.91 MBytes  41.2 Mbits/sec  0.253 ms  0/3552 (0%)  
+[  7]  20.00-20.01  sec  74.9 KBytes  70.2 Mbits/sec  0.373 ms  0/53 (0%)  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Jitter    Lost/Total Datagrams
+[SUM]  0.0-20.0 sec  1860 datagrams received out-of-order
+[  7]   0.00-20.01  sec  53.8 MBytes  22.6 Mbits/sec  0.373 ms  156/39110 (0.4%)  receiver
+-----------------------------------------------------------
+Server listening on 54776 (test #3)
+-----------------------------------------------------------
+Accepted connection from 10.0.0.3, port 51182
+[  7] local 10.0.0.7 port 54776 connected to 10.0.0.3 port 43530
+[ ID] Interval           Transfer     Bitrate         Jitter    Lost/Total Datagrams
+[  7]   0.00-1.00   sec  2.52 MBytes  21.2 Mbits/sec  1.669 ms  5/1832 (0.27%)  
+[  7]   1.00-2.00   sec  1.87 MBytes  15.7 Mbits/sec  0.239 ms  5/1362 (0.37%)  
+[  7]   2.00-3.00   sec  5.21 MBytes  43.7 Mbits/sec  0.169 ms  0/3773 (0%)  
+[  7]   3.00-4.00   sec  2.72 MBytes  22.7 Mbits/sec  0.470 ms  0/1969 (0%)  
+[  7]   4.00-5.00   sec  2.40 MBytes  20.2 Mbits/sec  0.440 ms  0/1735 (0%)  
+[  7]   5.00-6.01   sec  1.84 MBytes  15.3 Mbits/sec  1.814 ms  0/1330 (0%)  
+[  7]   6.01-7.00   sec  2.66 MBytes  22.5 Mbits/sec  0.335 ms  0/1927 (0%)  
+[  7]   7.00-8.00   sec  3.35 MBytes  28.1 Mbits/sec  0.363 ms  0/2423 (0%)  
+[  7]   8.00-9.00   sec  1.38 MBytes  11.6 Mbits/sec  0.077 ms  0/999 (0%)  
+[  7]   9.00-10.00  sec   969 KBytes  7.94 Mbits/sec  0.425 ms  0/685 (0%)  
+[  7]  10.00-11.26  sec   351 KBytes  2.29 Mbits/sec  1.759 ms  0/248 (0%)  
+[  7]  11.26-12.00  sec  2.12 MBytes  23.9 Mbits/sec  0.883 ms  0/1532 (0%)  
+[  7]  12.00-13.00  sec   747 KBytes  6.12 Mbits/sec  0.356 ms  21/549 (3.8%)  
+[  7]  13.00-14.00  sec   373 KBytes  3.06 Mbits/sec  0.092 ms  0/264 (0%)  
+[  7]  14.00-15.00  sec  1.30 MBytes  10.9 Mbits/sec  0.686 ms  3/945 (0.32%)  
+[  7]  15.00-16.00  sec  3.40 MBytes  28.5 Mbits/sec  0.379 ms  53/2513 (2.1%)  
+[  7]  16.00-17.00  sec  1.96 MBytes  16.4 Mbits/sec  0.450 ms  0/1420 (0%)  
+[  7]  17.00-18.00  sec  4.21 MBytes  35.3 Mbits/sec  0.394 ms  0/3046 (0%)  
+[  7]  18.00-19.00  sec  1.01 MBytes  8.49 Mbits/sec  0.241 ms  0/733 (0%)  
+[  7]  19.00-20.00  sec  5.89 MBytes  49.4 Mbits/sec  0.155 ms  6/4270 (0.14%)  
+[  7]  20.00-20.83  sec   189 KBytes  1.86 Mbits/sec  0.957 ms  0/134 (0%)  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Jitter    Lost/Total Datagrams
+[SUM]  0.0-20.8 sec  1709 datagrams received out-of-order
+[  7]   0.00-20.83  sec  46.4 MBytes  18.7 Mbits/sec  0.957 ms  93/33689 (0.28%)  receiver
+iperf3: interrupt - the server has terminated
+-----------------------------------------------------------
+Server listening on 54776 (test #4)
+-----------------------------------------------------------
