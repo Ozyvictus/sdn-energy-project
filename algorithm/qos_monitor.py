@@ -313,9 +313,12 @@ class QoSMonitor:
                 if marker and marker != self.last_marker:
                     self.last_marker = marker
                     if snapshot.get("phase") == "qos":
-                        age = time.time() - float(snapshot.get("timestamp_epoch", time.time()))
-                        # Requests are published at QoS-slot start. Ignore stale requests
-                        # if this worker was busy or started after that slot had passed.
+                        try:
+                            age = time.time() - float(snapshot.get("timestamp_epoch", time.time()))
+                        except (TypeError, ValueError):
+                            age = float("inf")
+                        # Requests are published at QoS-slot start. Ignore stale or
+                        # malformed requests instead of probing outside their time slot.
                         if 0.0 <= age <= 2.0:
                             self.qos_sequence += 1
                             try:
