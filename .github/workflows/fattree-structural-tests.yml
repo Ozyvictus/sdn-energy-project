@@ -65,7 +65,7 @@ jobs:
         run: |
           python3 -m venv --system-site-packages .venv
           .venv/bin/python -m pip install --upgrade pip
-          .venv/bin/python -m pip install "os-ken==4.2.2"
+          .venv/bin/python -m pip install "os-ken==4.2.2" "matplotlib>=3.8,<4"
 
       - name: Run controller-backed k=4 Mininet integration test
         shell: bash
