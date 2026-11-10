@@ -273,8 +273,8 @@ def _run_load_profile(
     start_mono = time.monotonic()
     jobs = []
 
-    # All three clients start concurrently, making each profile a repeatable
-    # aggregate offered-load level instead of three sequential tests.
+    # All configured clients start concurrently, making each profile a repeatable
+    # aggregate offered-load level instead of sequential tests.
     try:
         for flow in flows:
             log_handle = flow["log_path"].open("w", encoding="utf-8")
@@ -465,7 +465,7 @@ def run_demo(
             str(controller_snapshot),
         )
 
-        # Run each load profile; three client processes run concurrently per profile.
+        # Run each load profile; all configured flow clients run concurrently.
         for profile, rate in PROFILES:
             print(
                 f"\n[traffic-demo] {profile.upper()}: starting {len(FLOW_LAYOUT)} concurrent UDP flows "
