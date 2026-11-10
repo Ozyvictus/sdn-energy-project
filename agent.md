@@ -1,10 +1,7 @@
-
 # Project: SDN Data Center Energy Optimization
 
 ## Objective
-Implement hierarchical energy optimization in an SDN
-data center network while preserving QoS, security,
-connectivity, and resilience.
+Implement hierarchical energy optimization in an SDN data center network while preserving QoS, security, connectivity, and resilience.
 
 ## Environment
 - Ubuntu VM
@@ -14,52 +11,83 @@ connectivity, and resilience.
 - Python virtual environment
 - Project directory: ~/sdn-energy-project
 
-## Existing architecture
-- launch.py starts the controller
-- controller/monitor.py collects topology and port stats
-- algorithm/component_energy_model.py models energy
-- algorithm/active_port_metrics.py tracks active ports
-- algorithm/qos_monitor.py measures QoS
-- algorithm/traffic_demo.py generates traffic
+## Current topology
+The feature/fattree-k4 branch uses a canonical k=4 Fat-Tree:
+- 4 core switches
+- 8 aggregation switches
+- 8 edge switches
+- 20 total switches
+- 16 hosts
+- 32 inter-switch links
+- 16 host-facing links
+- 48 total links
+- 4 pods; each pod has 2 aggregation and 2 edge switches
+- Each edge switch serves 2 hosts
+- Each aggregation switch connects to 2 core switches, one from each core group
 
-## Topology
-- 6 switches: s1-s6
-- 8 hosts: h1-h8
-- s1 and s2 are core switches
-- s3-s6 are edge switches
-- edge switches connect to both core switches
-- 9 intended inter-switch links
-- host IPs: 10.0.0.1 through 10.0.0.8
+Deterministic names:
+- Core: s1-s4
+- Aggregation: s5-s12
+- Edge: s13-s20
+- Hosts: h1-h16
+- Host IPs: 10.0.0.1/8 through 10.0.0.16/8
+
+Topology source of truth:
+- topology/fattree_spec.py contains the pure-Python, Mininet-independent topology specification.
+- topology/mininet_topo.py translates the specification into Mininet.
+- config.py derives link capacities, switch names, host names, and link classes from the same specification.
+- Use build_fat_tree_spec(k=4) for structural metadata.
+- Do not recreate a second hardcoded list of topology links.
+
+The original 6-switch, 8-host topology remains on the ccnsdemo branch. Do not silently copy its old topology assumptions into feature/fattree-k4.
+
+## Existing architecture
+- launch.py starts the controller and OS-Ken topology discovery.
+- controller/monitor.py collects topology and OpenFlow port statistics.
+- controller/l2_forwarding.py is currently a basic L2 learning switch.
+- algorithm/component_energy_model.py models component operational-state energy.
+- algorithm/active_port_metrics.py tracks traffic-active ports separately.
+- algorithm/qos_monitor.py measures latency, loss, and rotating throughput.
+- algorithm/traffic_demo.py generates traffic.
+- algorithm/optimizer.py currently models link-sleep decisions but is not integrated with live OpenFlow reconfiguration.
+
+## Link capacities
+- Host-facing links: 100 Mbps
+- Inter-switch links: 1000 Mbps
+- Capacities are derived from topology.fattree_spec; do not hardcode a second topology map.
 
 ## Energy model
 - Switch active: 300 W
 - Switch sleep: 20 W
 - Inter-switch link active: 50 W
 - Inter-switch link sleep: 1 W
-- Values are simulation coefficients, not measured hardware power.
-
-Energy = component power state × elapsed duration.
-Use actual elapsed time, not an assumed fixed interval.
+- These are literature-derived simulation coefficients, not physical Mininet/OVS power measurements.
+- Host-facing links are excluded from the inter-switch link energy model.
+- Energy must use actual elapsed time and component-state durations, not traffic-active port counts or assumed fixed cycle durations.
 
 ## Optimization strategy
 1. Monitor traffic and topology.
-2. Identify eligible low-utilization links.
+2. Identify eligible low-utilization inter-switch links.
 3. Consolidate traffic where feasible.
-4. Preserve QoS thresholds.
-5. Preserve security policy restrictions.
-6. Preserve connectivity and alternate paths.
+4. Evaluate actual QoS measurements separately from link utilization.
+5. Preserve configured security policies; do not report security as passed when no policies are configured or evaluated.
+6. Preserve required host connectivity and the explicitly configured resilience level.
 7. Attempt link sleeping first.
-8. Attempt switch sleeping only if safe.
+8. Attempt switch sleeping only after safe host migration/reconnection and failure handling are implemented.
 9. Wake components on increased demand or failure.
 
 ## Critical requirements
 - Inspect existing code before modifying.
 - Preserve existing working functionality.
-- Do not create a second controller.py.
+- Do not create a second controller entry point.
 - Do not invent APIs or topology links.
+- Do not assume STP leaves all physical paths available for optimization.
+- Do not disable STP while retaining flooding-based forwarding.
 - Never claim physical energy savings from Mininet.
-- Do not claim optimization is implemented unless tested.
-- Separate monitoring, energy model, QoS, and algorithm.
+- Do not claim optimization is implemented unless the relevant network changes are actually executed and tested.
+- Keep monitoring, energy model, QoS, security policy, and optimization responsibilities separated.
+- Validate the canonical topology with python -m unittest discover -s tests -p test_fattree.py -v.
+- Run Mininet-specific tests in the Ubuntu VM; local structural tests do not prove Mininet startup, OpenFlow discovery, or host connectivity.
 - Explain every major modification.
 - Run syntax checks and tests.
 - Make incremental changes, not a massive rewrite.
