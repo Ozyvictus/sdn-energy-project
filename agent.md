@@ -47,7 +47,7 @@ The original 6-switch, 8-host topology remains on the ccnsdemo branch. Do not si
 - controller/l2_forwarding.py is currently a basic L2 learning switch.
 - algorithm/component_energy_model.py models component operational-state energy.
 - algorithm/active_port_metrics.py tracks traffic-active ports separately.
-- algorithm/qos_monitor.py measures rotating 24-pair batches (three ICMP probes per pair) across the full host-pair matrix, plus opportunistic rotating TCP throughput.
+- algorithm/qos_monitor.py measures rotating 16-pair batches (one separate warm-up ping plus three measured ICMP probes per pair) across the full host-pair matrix, plus opportunistic rotating TCP throughput.
 - algorithm/traffic_demo.py generates four concurrent UDP flows across all four pods.
 - algorithm/measurement_utils.py calculates actual start-to-start sample intervals for energy integration.
 - docs/measurement-pipeline.md documents the baseline measurement procedure and output files.
@@ -66,7 +66,7 @@ The original 6-switch, 8-host topology remains on the ccnsdemo branch. Do not si
 - These are literature-derived simulation coefficients, not physical Mininet/OVS power measurements.
 - Host-facing links are excluded from the inter-switch link energy model.
 - Energy must use actual elapsed time and component-state durations, not traffic-active port counts or assumed fixed cycle durations. The first sample uses the nominal interval; subsequent intervals use monotonic cycle start-to-start time.
-- QoS pair coverage must be explicit: k=4 has 16 hosts and 120 unique unordered pairs; 24 pairs are measured per QoS cycle and a full sweep spans five QoS cycles.
+- QoS pair coverage must be explicit: k=4 has 16 hosts and 120 unique unordered pairs; 16 pairs are measured per QoS cycle and a full sweep spans eight QoS cycles.
 - The QoS jitter_ms field is Linux ping RTT mdev (round-trip-time standard deviation), not RFC 3550 inter-arrival jitter.
 - QoS monitoring is started explicitly from the Mininet CLI; it is not started automatically by the topology launcher.
 
