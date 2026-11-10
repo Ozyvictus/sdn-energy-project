@@ -39,6 +39,10 @@ class L2Switch(app_manager.OSKenApp):
         mod = parser.OFPFlowMod(datapath=datapath, priority=priority,
                                  match=match, instructions=inst)
         datapath.send_msg(mod)
+        self.logger.info(
+            "FLOW_MOD sent: dpid=%s priority=%s match=%s actions=%s",
+            datapath.id, priority, match, actions,
+        )
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def packet_in_handler(self, ev):
@@ -51,6 +55,13 @@ class L2Switch(app_manager.OSKenApp):
 
         pkt = packet.Packet(msg.data)
         eth = pkt.get_protocol(ethernet.ethernet)
+        if eth is None:
+            self.logger.warning(
+                "PacketIn without Ethernet header: dpid=%s in_port=%s",
+                dpid, in_port,
+            )
+            return
+
         dst = eth.dst
         src = eth.src
 
@@ -60,6 +71,13 @@ class L2Switch(app_manager.OSKenApp):
         out_port = self.mac_to_port[dpid].get(dst, ofproto.OFPP_FLOOD)
         actions = [parser.OFPActionOutput(out_port)]
 
+        self.logger.info(
+            "PACKET_IN: dpid=%s in_port=%s src=%s dst=%s buffer_id=%s "
+            "decision=%s",
+            dpid, in_port, src, dst, msg.buffer_id,
+            "FLOOD" if out_port == ofproto.OFPP_FLOOD else f"PORT_{out_port}",
+        )
+
         if out_port != ofproto.OFPP_FLOOD:
             match = parser.OFPMatch(in_port=in_port, eth_dst=dst)
             self.add_flow(datapath, 1, match, actions)
@@ -68,3 +86,8 @@ class L2Switch(app_manager.OSKenApp):
         out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
                                    in_port=in_port, actions=actions, data=data)
         datapath.send_msg(out)
+        self.logger.info(
+            "PACKET_OUT sent: dpid=%s in_port=%s out_port=%s "
+            "buffer_id=%s data_included=%s",
+            dpid, in_port, out_port, msg.buffer_id, data is not None,
+        )
