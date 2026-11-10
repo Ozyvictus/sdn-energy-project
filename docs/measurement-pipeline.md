@@ -58,7 +58,7 @@ The default demo records a quiet baseline, low/medium/high offered UDP loads, an
 
 A 16-host topology has 120 unique unordered host pairs. The QoS worker measures 24 pairs per QoS cycle, sending three ICMP echo requests per pair. It rotates through five deterministic batches; therefore a complete pair matrix is covered across five QoS phases (approximately 50 seconds at the nominal alternating-cycle cadence). The CSV records the total pair count, pairs scheduled in the current batch, valid measurements, batch index, batch duration, and whether the probe batch fit within its four-second target slot.
 
-The `jitter_ms` field is Linux ping's RTT `mdev` (mean deviation/standard deviation of round-trip samples). It is recorded as an RTT-variation indicator, **not** as an RFC 3550 inter-arrival jitter measurement. Three probes provide a more useful variation estimate than the previous single-packet sample, but longer repeated runs are still recommended for final statistical reporting.
+The `jitter_ms` field is Linux ping's RTT `mdev` (standard deviation of round-trip samples). It is recorded as an RTT-variation indicator, **not** as an RFC 3550 inter-arrival jitter measurement. Three probes provide a more useful variation estimate than the previous single-packet sample, but longer repeated runs are still recommended for final statistical reporting.
 
 A rotating one-second iperf3 TCP sample is attempted only when the ICMP batch finishes with enough time left in the QoS slot. It is opportunistic and may be skipped when the probe batch consumes the budget. The separate traffic demo is the repeatable offered-load throughput experiment.
 
