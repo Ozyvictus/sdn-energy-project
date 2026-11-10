@@ -21,6 +21,37 @@ def _switch_dpid(name: str) -> int:
     return int(name[1:])
 
 
+def mininet_interface_port(intf: Any) -> int:
+    """Read a Mininet interface's port number from its owning node.
+
+    Mininet stores interface-to-port assignments in intf.node.ports.
+    Some interface subclasses, including TCIntf in supported Mininet
+    versions, do not expose a public intf.port attribute.
+    """
+    node = getattr(intf, "node", None)
+    node_ports = getattr(node, "ports", None)
+    if node_ports is not None:
+        try:
+            return int(node_ports[intf])
+        except (KeyError, TypeError, ValueError):
+            pass
+
+    # Compatibility fallback for Mininet forks that expose intf.port.
+    direct_port = getattr(intf, "port", None)
+    if direct_port is not None:
+        try:
+            return int(direct_port)
+        except (TypeError, ValueError):
+            pass
+
+    node_name = getattr(node, "name", "<unknown>")
+    intf_name = getattr(intf, "name", "<unknown>")
+    raise ValueError(
+        f"Cannot resolve Mininet port for interface {intf_name!r} on node "
+        f"{node_name!r}; expected node.ports[intf]"
+    )
+
+
 def build_switch_port_map(
     link_endpoints: Iterable[Tuple[str, int, str, int]],
     switch_names: Iterable[str],
