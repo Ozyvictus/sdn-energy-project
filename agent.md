@@ -43,7 +43,8 @@ The original 6-switch, 8-host topology remains on the ccnsdemo branch. Do not si
 
 ## Existing architecture
 - launch.py starts the controller and OS-Ken topology discovery.
-- controller/monitor.py collects topology and OpenFlow port statistics. Its snapshot distinguishes the expected physical Fat-Tree link inventory from links currently visible through OS-Ken/LLDP; do not treat LLDP discovery as proof that all physical links are mapped.
+- controller/monitor.py collects topology and OpenFlow port statistics. It uses the Mininet-generated physical switch-port inventory for rate attribution, including STP-blocked links, and reports LLDP-visible links separately.
+- topology/port_map.py builds and validates the switch-port inventory from actual Mininet interfaces; do not infer physical links from the LLDP view alone.
 - controller/l2_forwarding.py is currently a basic L2 learning switch.
 - algorithm/component_energy_model.py models component operational-state energy.
 - algorithm/active_port_metrics.py tracks traffic-active ports separately.
