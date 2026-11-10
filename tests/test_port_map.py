@@ -2,7 +2,7 @@
 
 import unittest
 
-from topology.port_map import build_switch_port_map
+from topology.port_map import build_switch_port_map, mininet_interface_port
 
 
 class FakeNode:
@@ -14,6 +14,50 @@ class FakeIntf:
     def __init__(self, node, port):
         self.node = FakeNode(node)
         self.port = port
+
+
+class InterfacePortLookupTests(unittest.TestCase):
+    def test_reads_port_from_node_mapping_without_intf_port_attribute(self):
+        class Node:
+            name = "s1"
+
+            def __init__(self):
+                self.ports = {}
+
+        class TCIntfLike:
+            def __init__(self, node):
+                self.node = node
+                self.name = "s1-eth3"
+
+        node = Node()
+        intf = TCIntfLike(node)
+        node.ports[intf] = 3
+
+        self.assertFalse(hasattr(intf, "port"))
+        self.assertEqual(mininet_interface_port(intf), 3)
+
+    def test_uses_direct_port_only_as_compatibility_fallback(self):
+        class Node:
+            name = "s1"
+
+        class ForkIntf:
+            node = Node()
+            port = 4
+            name = "s1-eth4"
+
+        self.assertEqual(mininet_interface_port(ForkIntf()), 4)
+
+    def test_missing_port_mapping_raises_clear_error(self):
+        class Node:
+            name = "s1"
+            ports = {}
+
+        class Intf:
+            node = Node()
+            name = "s1-eth7"
+
+        with self.assertRaisesRegex(ValueError, "node.ports"):
+            mininet_interface_port(Intf())
 
 
 class PhysicalPortMapTests(unittest.TestCase):
