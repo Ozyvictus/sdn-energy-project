@@ -1156,19 +1156,35 @@ class TopologyMonitor(app_manager.OSKenApp):
             self._link_name(self._canonical_link(int(left[1:]), int(right[1:])))
             for left, right in expected_spec.inter_switch_links
         })
+        physical_link_names = sorted(set(self.physical_inter_switch_links))
+        if not physical_link_names:
+            physical_link_names = sorted({
+                self._link_name(value) for value in self.port_to_link.values()
+            })
         missing_inter_switch_links = sorted(
-            set(expected_inter_switch_links) - set(unique_topology_links)
+            set(expected_inter_switch_links) - set(physical_link_names)
         )
         unexpected_inter_switch_links = sorted(
-            set(unique_topology_links) - set(expected_inter_switch_links)
+            set(physical_link_names) - set(expected_inter_switch_links)
+        )
+        missing_lldp_inter_switch_links = sorted(
+            set(expected_inter_switch_links) - set(unique_topology_links)
         )
         if missing_inter_switch_links or unexpected_inter_switch_links:
             self.logger.warning(
-                "TOPOLOGY DISCOVERY COVERAGE | discovered=%d/%d | missing=%d | unexpected=%d",
-                len(unique_topology_links),
+                "PHYSICAL PORT INVENTORY COVERAGE | source=%s | inventory=%d/%d | missing=%d | unexpected=%d",
+                self.port_map_source,
+                len(physical_link_names),
                 len(expected_inter_switch_links),
                 len(missing_inter_switch_links),
                 len(unexpected_inter_switch_links),
+            )
+        if missing_lldp_inter_switch_links:
+            self.logger.info(
+                "LLDP VIEW | discovered=%d/%d active links; %d links are not visible through LLDP",
+                len(unique_topology_links),
+                len(expected_inter_switch_links),
+                len(missing_lldp_inter_switch_links),
             )
         snapshot = {
             "session_id": self.session_id,
@@ -1186,14 +1202,19 @@ class TopologyMonitor(app_manager.OSKenApp):
             "stats_complete": received_switches == expected_switches,
             "stats_timed_out": bool(cycle.get("timed_out", False)),
             "topology_switch_count": len(topology_switches),
-            "topology_inter_switch_link_count": len(unique_topology_links),
+            "topology_inter_switch_link_count": len(physical_link_names),
             "expected_inter_switch_link_count": len(expected_inter_switch_links),
             "topology_discovery_complete": not missing_inter_switch_links and not unexpected_inter_switch_links,
+            "physical_link_inventory_complete": not missing_inter_switch_links and not unexpected_inter_switch_links,
+            "physical_port_map_source": self.port_map_source,
             "missing_inter_switch_links": missing_inter_switch_links,
             "unexpected_inter_switch_links": unexpected_inter_switch_links,
+            "lldp_discovered_inter_switch_link_count": len(unique_topology_links),
+            "lldp_missing_inter_switch_links": missing_lldp_inter_switch_links,
             "link_metric_count": len(link_metrics),
             "switches": sorted({f"s{sw.dp.id}" for sw in topology_switches}),
-            "links": unique_topology_links,
+            "links": physical_link_names,
+            "lldp_links": unique_topology_links,
             "network_active_ports": sum(cycle["active_ports"].values()),
             "link_metrics": link_metrics,
             "energy": cycle.get("energy_result", {}),
