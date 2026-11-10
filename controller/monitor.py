@@ -20,7 +20,7 @@ Architecture:
           |
       Port Statistics
           |
-      10-second cycle
+      5-second target cadence
           |
       Network-wide active ports
           |
