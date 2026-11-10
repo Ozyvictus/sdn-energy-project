@@ -1068,6 +1068,10 @@ class TopologyMonitor(app_manager.OSKenApp):
             received_switches / expected_switches * 100.0
             if expected_switches else 0.0
         )
+        unique_topology_links = sorted({
+            self._link_name(self._canonical_link(link.src.dpid, link.dst.dpid))
+            for link in topology_links
+        })
         snapshot = {
             "session_id": self.session_id,
             "cycle": int(cycle["cycle"]),
@@ -1084,13 +1088,10 @@ class TopologyMonitor(app_manager.OSKenApp):
             "stats_complete": received_switches == expected_switches,
             "stats_timed_out": bool(cycle.get("timed_out", False)),
             "topology_switch_count": len(topology_switches),
-            "topology_inter_switch_link_count": len(topology_links),
+            "topology_inter_switch_link_count": len(unique_topology_links),
             "link_metric_count": len(link_metrics),
             "switches": sorted({f"s{sw.dp.id}" for sw in topology_switches}),
-            "links": sorted({
-                self._link_name(self._canonical_link(link.src.dpid, link.dst.dpid))
-                for link in topology_links
-            }),
+            "links": unique_topology_links,
             "network_active_ports": sum(cycle["active_ports"].values()),
             "link_metrics": link_metrics,
             "energy": cycle.get("energy_result", {}),
