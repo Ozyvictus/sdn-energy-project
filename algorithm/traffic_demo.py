@@ -8,7 +8,7 @@ Run this module from the Mininet CLI, after the topology is started:
 
 The demo runs:
   * a quiet baseline (no generated demo workload),
-  * three simultaneous inter-edge UDP flows at 10, 25, and 60 Mbps per flow,
+  * four simultaneous inter-pod UDP flows at 10, 25, and 60 Mbps per flow,
   * a quiet cooldown.
 
 The controller/QoS monitors continue independently. This script records the
@@ -32,12 +32,15 @@ from typing import Any, Dict, List, Optional
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_ROOT = PROJECT_ROOT / "data" / "traffic_demo"
 
-# Inter-edge pairs for the project's 8-host topology.
+# Directed flow ring spanning all four pods and all eight edge switches.
+# Host mapping is defined by topology/fattree_spec.py:
+# pod 0: h1-h4, pod 1: h5-h8, pod 2: h9-h12, pod 3: h13-h16.
 # Dynamic ports reduce the risk of colliding with old iperf3 test servers.
 FLOW_LAYOUT = (
-    ("h1", "h5"),
-    ("h3", "h7"),
-    ("h2", "h8"),
+    ("h1", "h5"),    # pod 0 -> pod 1, edge s13 -> s15
+    ("h7", "h11"),   # pod 1 -> pod 2, edge s16 -> s18
+    ("h9", "h13"),   # pod 2 -> pod 3, edge s17 -> s19
+    ("h15", "h3"),   # pod 3 -> pod 0, edge s20 -> s14
 )
 
 PROFILES = (
@@ -418,7 +421,10 @@ def run_demo(
     try:
         print(f"\n[traffic-demo] Run ID: {run_id}", flush=True)
         print(f"[traffic-demo] Results: {run_dir}", flush=True)
-        print("[traffic-demo] Checking and starting three inter-edge iperf3 servers...", flush=True)
+        print(
+            f"[traffic-demo] Checking and starting {len(FLOW_LAYOUT)} inter-pod iperf3 servers...",
+            flush=True,
+        )
 
         for src, dst in FLOW_LAYOUT:
             log_path = run_dir / f"iperf_server_{dst}.log"
@@ -462,7 +468,7 @@ def run_demo(
         # Run each load profile; three client processes run concurrently per profile.
         for profile, rate in PROFILES:
             print(
-                f"\n[traffic-demo] {profile.upper()}: starting three concurrent UDP flows "
+                f"\n[traffic-demo] {profile.upper()}: starting {len(FLOW_LAYOUT)} concurrent UDP flows "
                 f"at {rate} Mbps each (target aggregate {rate * len(FLOW_LAYOUT)} Mbps) "
                 f"for {profile_seconds}s.",
                 flush=True,
