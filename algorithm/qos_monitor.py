@@ -1,15 +1,13 @@
-"""Network-wide QoS monitor for a Mininet topology.
+"""Rotating end-to-end QoS measurements for a Mininet topology.
 
-The controller publishes a JSON cycle snapshot to /tmp/sdn_energy_cycle.json.
-The snapshot has alternating phases: cycle 1 = energy, cycle 2 = qos, etc.
-This monitor runs the full host-pair ping sweep only on QoS phases. The same
-5-second scheduler is therefore shared, without launching active probes in
-an energy phase. Eight hosts yield 28 unique unordered host pairs.
+The controller alternates five-second energy and QoS cycles. On each QoS
+cycle this worker probes one batch of unique unordered host pairs. Batches
+rotate deterministically, so a 16-host Fat-Tree (120 pairs) is covered over
+five QoS cycles rather than forcing all 120 probes into one slot.
 
-For throughput, one host pair is tested per QoS phase using iperf3. This is a
-rotating end-to-end sample, not simultaneous throughput for all 28 pairs. It
-is optional and enabled by default. Link throughput remains available from
-OpenFlow port counters independently of this active test.
+Each ICMP measurement sends multiple packets. Linux ping's mdev is recorded
+as RTT variation (jitter_ms); it is not an RFC 3550 inter-arrival jitter
+measurement. Throughput is a separate, rotating iperf3 sample.
 """
 
 from __future__ import annotations
@@ -32,9 +30,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DATA_DIR = PROJECT_ROOT / "data"
 QOS_REQUEST_PATH = "/tmp/sdn_energy_qos_request.json"
 FILE_POLL_SECONDS = 0.10
-PING_COUNT = 1
+PING_COUNT = 3
 PING_WAIT_SECONDS = 1
-MAX_CONCURRENT_PINGS = 28
+MAX_CONCURRENT_PINGS = 24
+QOS_PAIR_BATCH_SIZE = 24
 QOS_SLOT_BUDGET_SECONDS = 4.0
 ENABLE_ROTATING_IPERF = True
 IPERF_DURATION_SECONDS = 1
@@ -43,14 +42,17 @@ IPERF_CONNECT_TIMEOUT_MS = 700
 
 PING_FIELDS = [
     "session_id", "cycle", "timestamp_utc", "src_host", "dst_host",
-    "src_ip", "dst_ip", "latency_ms", "jitter_ms", "packet_loss_percent", "reachable",
-    "packets_sent", "packets_received", "measurement_valid", "ping_output",
-    "throughput_mbps", "throughput_test_status",
+    "src_ip", "dst_ip", "latency_ms", "jitter_ms", "jitter_metric", "ping_count",
+    "packet_loss_percent", "reachable", "packets_sent", "packets_received",
+    "measurement_valid", "ping_output", "throughput_mbps", "throughput_test_status",
 ]
 SUMMARY_FIELDS = [
-    "session_id", "cycle", "timestamp_utc", "pairs_expected", "pairs_measured",
-    "pairs_reachable", "average_rtt_ms", "p95_rtt_ms", "average_jitter_ms", "average_packet_loss_percent",
+    "session_id", "cycle", "timestamp_utc", "pairs_expected", "pairs_scheduled",
+    "pairs_measured", "pairs_reachable", "batch_index", "batches_per_sweep",
+    "batch_pair_coverage_percent", "average_rtt_ms", "p95_rtt_ms",
+    "average_jitter_ms", "jitter_metric", "average_packet_loss_percent",
     "maximum_packet_loss_percent", "throughput_pair", "throughput_mbps",
+    "ping_batch_duration_seconds", "ping_batch_within_slot",
     "sweep_duration_seconds", "active_probes_within_slot",
 ]
 
@@ -226,6 +228,31 @@ def _percentile(values: List[float], percentile: float) -> Optional[float]:
     return ordered[lower] + (ordered[upper] - ordered[lower]) * (index - lower)
 
 
+def select_pair_batch(
+    pairs: Sequence[Tuple[Any, Any]],
+    sequence: int,
+    *,
+    batch_size: int = QOS_PAIR_BATCH_SIZE,
+) -> Tuple[int, int, List[Tuple[Any, Any]]]:
+    """Return a deterministic, non-overlapping batch for one QoS sequence.
+
+    The sequence is one-based. After every batch has been visited, the next
+    sequence starts a new sweep. The input ordering must remain stable across
+    cycles; QoSMonitor sorts Mininet hosts by name before constructing pairs.
+    """
+    if batch_size < 1:
+        raise ValueError("batch_size must be a positive integer")
+    if sequence < 1:
+        raise ValueError("sequence must be a positive integer")
+    total = len(pairs)
+    if total == 0:
+        return 0, 0, []
+    batches = math.ceil(total / batch_size)
+    batch_index = ((sequence - 1) % batches) + 1
+    start = (batch_index - 1) * batch_size
+    return batch_index, batches, list(pairs[start : start + batch_size])
+
+
 class QoSMonitor:
     """Poll controller snapshots and measure all unique host pairs on QoS phases."""
 
@@ -306,11 +333,16 @@ class QoSMonitor:
         hosts = self._hosts()
         if len(hosts) < 2:
             raise RuntimeError(f"QoS monitor needs at least two Mininet hosts; got {len(hosts)}")
-        pairs = [(hosts[i], hosts[j]) for i in range(len(hosts)) for j in range(i + 1, len(hosts))]
+        all_pairs = [(hosts[i], hosts[j]) for i in range(len(hosts)) for j in range(i + 1, len(hosts))]
         cycle = int(snapshot["cycle"])
         session_id = str(snapshot["session_id"])
+        sequence = max(1, int(qos_sequence or self.qos_sequence or 1))
+        batch_index, batches_per_sweep, pairs = select_pair_batch(all_pairs, sequence)
         start_time = time.monotonic()
-        print(f"{self.logger_prefix} cycle={cycle}: measuring {len(pairs)} unique host pairs")
+        print(
+            f"{self.logger_prefix} cycle={cycle}: measuring batch "
+            f"{batch_index}/{batches_per_sweep} ({len(pairs)} of {len(all_pairs)} host pairs)"
+        )
 
         results: List[dict] = []
         workers = max(1, min(MAX_CONCURRENT_PINGS, len(pairs)))
@@ -328,27 +360,28 @@ class QoSMonitor:
                         "src_host": src.name, "dst_host": dst.name,
                         "src_ip": _ip(src) if _safe_ip(src) else "",
                         "dst_ip": _ip(dst) if _safe_ip(dst) else "",
-                        "latency_ms": None, "jitter_ms": None, "packet_loss_percent": None,
-                        "reachable": False, "packets_sent": None, "packets_received": None,
+                        "latency_ms": None, "jitter_ms": None,
+                        "jitter_metric": "unavailable", "ping_count": PING_COUNT,
+                        "packet_loss_percent": None, "reachable": False,
+                        "packets_sent": None, "packets_received": None,
                         "measurement_valid": False,
                         "ping_output": f"{type(exc).__name__}: {exc}",
                         "throughput_mbps": None, "throughput_test_status": "not_tested",
                     }
                 results.append(row)
 
+        ping_batch_duration = time.monotonic() - start_time
+        ping_batch_within_slot = ping_batch_duration <= QOS_SLOT_BUDGET_SECONDS
+
         # One rotating, active throughput test per QoS phase. It starts only after
-        # all pairwise ping probes have completed so it does not contaminate those RTT samples.
+        # this batch's ICMP probes complete so it does not contaminate RTT samples.
         throughput_pair_name = ""
         throughput_mbps = None
-        elapsed_before_iperf = time.monotonic() - start_time
-        active_probes_within_slot = elapsed_before_iperf <= QOS_SLOT_BUDGET_SECONDS
-        # Reserve time for a one-second test, server startup and cleanup so the
-        # active probe train is unlikely to spill into the next energy phase.
         enough_time_for_iperf = (
-            QOS_SLOT_BUDGET_SECONDS - elapsed_before_iperf
-            >= IPERF_DURATION_SECONDS + 1.0
+            QOS_SLOT_BUDGET_SECONDS - ping_batch_duration
+            >= self.iperf_duration_seconds + 1.0
         )
-        if self.enable_rotating_iperf and pairs and active_probes_within_slot and enough_time_for_iperf:
+        if self.enable_rotating_iperf and pairs and ping_batch_within_slot and enough_time_for_iperf:
             pair_index = ((qos_sequence or self.qos_sequence) - 1) % len(pairs)
             throughput_src, throughput_dst = pairs[pair_index]
             throughput_pair_name = f"{throughput_src.name}->{throughput_dst.name}"
@@ -391,22 +424,30 @@ class QoSMonitor:
         valid_latency = [float(r["latency_ms"]) for r in results if r.get("latency_ms") is not None]
         valid_jitter = [float(r["jitter_ms"]) for r in results if r.get("jitter_ms") is not None]
         reachable = sum(bool(r.get("reachable")) for r in results)
+        sweep_duration = time.monotonic() - start_time
         summary = {
             "session_id": session_id,
             "cycle": cycle,
             "timestamp_utc": now,
-            "pairs_expected": len(pairs),
+            "pairs_expected": len(all_pairs),
+            "pairs_scheduled": len(pairs),
             "pairs_measured": sum(bool(r.get("measurement_valid")) for r in results),
             "pairs_reachable": reachable,
+            "batch_index": batch_index,
+            "batches_per_sweep": batches_per_sweep,
+            "batch_pair_coverage_percent": (len(pairs) / len(all_pairs) * 100.0) if all_pairs else 0.0,
             "average_rtt_ms": (sum(valid_latency) / len(valid_latency)) if valid_latency else None,
             "p95_rtt_ms": _percentile(valid_latency, 95),
             "average_jitter_ms": (sum(valid_jitter) / len(valid_jitter)) if valid_jitter else None,
+            "jitter_metric": "Linux ping RTT mdev (not RFC 3550 jitter)" if valid_jitter else "unavailable",
             "average_packet_loss_percent": (sum(valid_loss) / len(valid_loss)) if valid_loss else None,
             "maximum_packet_loss_percent": max(valid_loss) if valid_loss else None,
             "throughput_pair": throughput_pair_name,
             "throughput_mbps": throughput_mbps,
-            "sweep_duration_seconds": round(time.monotonic() - start_time, 3),
-            "active_probes_within_slot": (time.monotonic() - start_time) <= QOS_SLOT_BUDGET_SECONDS,
+            "ping_batch_duration_seconds": round(ping_batch_duration, 3),
+            "ping_batch_within_slot": ping_batch_within_slot,
+            "sweep_duration_seconds": round(sweep_duration, 3),
+            "active_probes_within_slot": sweep_duration <= QOS_SLOT_BUDGET_SECONDS,
         }
         _append_rows(self.summary_csv, SUMMARY_FIELDS, [summary])
         print(
@@ -428,6 +469,8 @@ class QoSMonitor:
             "dst_ip": dst_ip,
             "latency_ms": result.get("latency_ms"),
             "jitter_ms": result.get("jitter_ms"),
+            "jitter_metric": "linux_ping_rtt_mdev" if result.get("jitter_ms") is not None else "unavailable",
+            "ping_count": PING_COUNT,
             "packet_loss_percent": result.get("packet_loss_percent"),
             "reachable": bool(result.get("reachable")),
             "packets_sent": result.get("packets_sent"),
