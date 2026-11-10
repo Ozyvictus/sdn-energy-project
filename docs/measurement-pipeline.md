@@ -56,9 +56,9 @@ The default demo records a quiet baseline, low/medium/high offered UDP loads, an
 
 ## QoS sampling design
 
-A 16-host topology has 120 unique unordered host pairs. The QoS worker measures 24 pairs per QoS cycle, sending three ICMP echo requests per pair. It rotates through five deterministic batches; therefore a complete pair matrix is covered across five QoS phases (approximately 50 seconds at the nominal alternating-cycle cadence). The CSV records the total pair count, pairs scheduled in the current batch, valid measurements, batch index, batch duration, and whether the probe batch fit within its four-second target slot.
+A 16-host topology has 120 unique unordered host pairs. The QoS worker measures 16 pairs per QoS cycle. For each pair it sends one unrecorded warm-up ping, then three measured ICMP echo requests. It rotates through eight deterministic batches; therefore a complete pair matrix is covered across eight QoS phases (approximately 80 seconds at the nominal alternating-cycle cadence). The CSV records warm-up reachability/latency separately from measured RTT, the total pair count, pairs scheduled in the current batch, valid measurements, batch index, batch duration, and whether the probe batch fit within its four-second target slot.
 
-The `jitter_ms` field is Linux ping's RTT `mdev` (standard deviation of round-trip samples). It is recorded as an RTT-variation indicator, **not** as an RFC 3550 inter-arrival jitter measurement. Three probes provide a more useful variation estimate than the previous single-packet sample, but longer repeated runs are still recommended for final statistical reporting.
+The `latency_ms` and `jitter_ms` fields are calculated from the three measured probes after the separate warm-up ping. The `jitter_ms` field is Linux ping's RTT `mdev` (standard deviation of round-trip samples). It is recorded as an RTT-variation indicator, **not** as an RFC 3550 inter-arrival jitter measurement. Longer repeated runs are still recommended for final statistical reporting.
 
 A rotating one-second iperf3 TCP sample is attempted only when the ICMP batch finishes with enough time left in the QoS slot. It is opportunistic and may be skipped when the probe batch consumes the budget. The separate traffic demo is the repeatable offered-load throughput experiment.
 
@@ -70,7 +70,7 @@ A rotating one-second iperf3 TCP sample is attempted only when the ICMP batch fi
 | `data/qos_pair_measurements.csv` | Per-pair RTT, RTT variation, packet loss, reachability, and optional throughput sample |
 | `data/qos_cycle_summary.csv` | Per-batch coverage, valid/reachable pair counts, summary QoS values, and timing |
 | `data/traffic_demo/run_*/traffic_demo_phases.csv` | Wall-clock baseline, load-profile, and cooldown windows |
-| `data/traffic_demo/run_*/traffic_demo_summary.csv` | Per-flow UDP sender/receiver throughput, loss, and jitter |
+| `data/traffic_demo/run_*/traffic_demo_summary.csv` | Per-flow UDP sender/receiver throughput, sender/receiver target-attainment percentages, loss, and jitter |
 | `graphs/monitoring/traffic_utilisation.png` | Inter-switch link utilization history |
 | `/tmp/sdn_energy_cycle.json` | Latest controller cycle snapshot, including topology counts and port-stat reply coverage |
 | `/tmp/sdn_energy_qos_request.json` | Current QoS-phase request consumed by the Mininet-side worker |
@@ -88,6 +88,6 @@ The optimizer is not yet actuating link sleep/wake operations. Until such actuat
 1. Start the controller, Mininet, and QoS worker; allow topology discovery and at least one full pair sweep to complete.
 2. Run the traffic demo and confirm all four UDP flows report `status=ok`.
 3. Check the controller snapshot for 20 switches, 32 inter-switch links, and complete OpenFlow reply coverage.
-4. Check that each QoS summary reports 120 expected pairs, 24 (or the final remainder) scheduled pairs, and valid measurements for reachable pairs.
+4. Check that each QoS summary reports 120 expected pairs, 16 (or the final remainder) scheduled pairs, and valid measurements for reachable pairs. Confirm the separate warm-up fields are populated.
 5. Repeat the experiment from a fresh controller session at least three times before calculating mean and variability for the baseline.
 6. Retain each run's raw CSV files and manifest. Join traffic-profile windows to controller/QoS samples by timestamps and the corresponding controller session ID where available.
