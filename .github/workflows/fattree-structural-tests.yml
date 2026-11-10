@@ -101,8 +101,10 @@ jobs:
             exit 1
           fi
 
-          sudo -E .venv/bin/python -u tests/run_mininet_integration.py
+          TEST_EXIT=0
+          sudo -E .venv/bin/python -u tests/run_mininet_integration.py || TEST_EXIT=$?
 
           echo
           echo "===== OS-Ken controller log (last 250 lines) ====="
           tail -n 250 /tmp/osken-controller.log
+          exit "$TEST_EXIT"
