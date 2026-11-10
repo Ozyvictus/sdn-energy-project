@@ -145,6 +145,13 @@ def _as_mbps(section: Optional[Dict[str, Any]]) -> Optional[float]:
         return None
 
 
+def _target_attainment_percent(actual_mbps: Optional[float], target_mbps: float) -> Optional[float]:
+    """Return achieved rate as a percentage of the requested offered rate."""
+    if actual_mbps is None or target_mbps <= 0:
+        return None
+    return round(float(actual_mbps) / float(target_mbps) * 100.0, 2)
+
+
 def _extract_iperf_result(path: Path, returncode: Optional[int]) -> Dict[str, Any]:
     result: Dict[str, Any] = {
         "sent_mbps": None,
@@ -307,7 +314,8 @@ def _run_load_profile(
         "source_host", "destination_host", "destination_ip", "server_port",
         "requested_duration_seconds", "profile_start_utc", "profile_end_utc",
         "profile_elapsed_seconds", "process_returncode",
-        "sent_mbps", "received_mbps", "udp_packet_loss_percent",
+        "sent_mbps", "received_mbps", "sender_target_attainment_percent",
+        "receiver_target_attainment_percent", "udp_packet_loss_percent",
         "udp_jitter_ms", "status", "error", "iperf_json_path",
     ]
 
@@ -331,6 +339,12 @@ def _run_load_profile(
             "process_returncode": proc.returncode,
             "sent_mbps": measurement["sent_mbps"],
             "received_mbps": measurement["received_mbps"],
+            "sender_target_attainment_percent": _target_attainment_percent(
+                measurement["sent_mbps"], target_mbps
+            ),
+            "receiver_target_attainment_percent": _target_attainment_percent(
+                measurement["received_mbps"], target_mbps
+            ),
             "udp_packet_loss_percent": measurement["udp_packet_loss_percent"],
             "udp_jitter_ms": measurement["udp_jitter_ms"],
             "status": measurement["status"],
@@ -481,13 +495,14 @@ def run_demo(
             phase_end = time.time()
             _write_phase(
                 phase_path, run_id, profile, phase_start, phase_end, profile_seconds,
-                f"Three concurrent UDP flows at {rate} Mbps target per flow.",
+                f"{len(FLOW_LAYOUT)} concurrent UDP flows at {rate} Mbps target per flow.",
                 str(controller_snapshot),
             )
             for row in rows:
                 print(
                     f"[traffic-demo] {row['source_host']}->{row['destination_host']}: "
                     f"sent={row['sent_mbps']} Mbps, received={row['received_mbps']} Mbps, "
+                    f"receiver_target_attainment={row['receiver_target_attainment_percent']}%, "
                     f"loss={row['udp_packet_loss_percent']}%, status={row['status']}"
                     + (f", error={row['error']}" if row["error"] else ""),
                     flush=True,
