@@ -96,7 +96,14 @@ def main() -> None:
         check_pair(net, "h1", "h5")
         check_pair(net, "h9", "h16")
 
-        print("\n[INTEGRATION] PASS: selected k=4 Fat-Tree host pairs are reachable.")
+        print("\n[INTEGRATION] Testing all 16 hosts with pingAll")
+        all_hosts_loss = net.pingAll(timeout=2)
+        if all_hosts_loss != 0:
+            raise AssertionError(
+                f"Full k=4 Fat-Tree pingAll has {all_hosts_loss:.1f}% packet loss"
+            )
+
+        print("\n[INTEGRATION] PASS: all k=4 Fat-Tree hosts are reachable.")
     finally:
         if net is not None:
             net.stop()
