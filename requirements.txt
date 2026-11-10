@@ -32,3 +32,4 @@ sortedcontainers==2.4.0
 stevedore==5.9.1
 urllib3==2.7.0
 WebOb==1.8.11
+matplotlib>=3.8,<4
