@@ -1,0 +1,32 @@
+name: Fat-Tree structural tests
+
+on:
+  push:
+    branches:
+      - feature/fattree-k4
+  pull_request:
+    branches:
+      - ccnsdemo
+    paths:
+      - "topology/**"
+      - "config.py"
+      - "tests/test_fattree.py"
+      - ".github/workflows/fattree-structural-tests.yml"
+
+jobs:
+  structural-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run Fat-Tree structural tests
+        run: python -m unittest discover -s tests -p "test_fattree.py" -v
+
+      - name: Compile topology modules
+        run: python -m py_compile topology/fattree_spec.py topology/mininet_topo.py config.py
