@@ -1,4 +1,4 @@
-name: Fat-Tree structural tests
+name: Fat-Tree validation
 
 on:
   push:
@@ -9,8 +9,10 @@ on:
       - ccnsdemo
     paths:
       - "topology/**"
+      - "controller/**"
       - "config.py"
-      - "tests/test_fattree.py"
+      - "launch.py"
+      - "tests/**"
       - ".github/workflows/fattree-structural-tests.yml"
 
 jobs:
@@ -28,5 +30,79 @@ jobs:
       - name: Run Fat-Tree structural tests
         run: python -m unittest discover -s tests -p "test_fattree.py" -v
 
-      - name: Compile topology modules
-        run: python -m py_compile topology/fattree_spec.py topology/mininet_topo.py config.py
+      - name: Compile topology and controller modules
+        run: |
+          python -m py_compile \
+            topology/fattree_spec.py \
+            topology/mininet_topo.py \
+            config.py \
+            controller/l2_forwarding.py \
+            controller/monitor.py \
+            launch.py
+
+  mininet-integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Mininet and Open vSwitch
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            mininet \
+            openvswitch-switch \
+            tcpdump
+
+      - name: Start Open vSwitch
+        run: |
+          sudo service openvswitch-switch start
+          sudo mn -c || true
+          sudo ovs-vsctl show
+
+      - name: Set up Python and OS-Ken
+        run: |
+          python3 -m venv --system-site-packages .venv
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install "os-ken==4.2.2"
+
+      - name: Run controller-backed k=4 Mininet integration test
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PYTHONUNBUFFERED=1
+
+          sudo -E .venv/bin/python -u launch.py > /tmp/osken-controller.log 2>&1 &
+          CONTROLLER_PID=$!
+
+          cleanup() {
+            sudo kill "$CONTROLLER_PID" 2>/dev/null || true
+            sudo mn -c >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          echo "Waiting for OS-Ken to listen on TCP/6653..."
+          for attempt in $(seq 1 45); do
+            if python3 -c 'import socket; s=socket.create_connection(("127.0.0.1", 6653), timeout=1); s.close()' 2>/dev/null; then
+              break
+            fi
+            if ! kill -0 "$CONTROLLER_PID" 2>/dev/null; then
+              echo "OS-Ken exited before opening its OpenFlow listener."
+              cat /tmp/osken-controller.log
+              exit 1
+            fi
+            sleep 1
+          done
+
+          if ! python3 -c 'import socket; s=socket.create_connection(("127.0.0.1", 6653), timeout=1); s.close()' 2>/dev/null; then
+            echo "OS-Ken did not open TCP/6653."
+            cat /tmp/osken-controller.log
+            exit 1
+          fi
+
+          sudo -E .venv/bin/python -u tests/run_mininet_integration.py
+
+          echo
+          echo "===== OS-Ken controller log (last 250 lines) ====="
+          tail -n 250 /tmp/osken-controller.log
