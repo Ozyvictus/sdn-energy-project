@@ -66,7 +66,8 @@ class PairBatchTests(unittest.TestCase):
 
     def test_empty_pair_set(self):
         self.assertEqual(select_pair_batch([], 1), (0, 0, []))
-\n    def test_pair_measurement_separates_warmup_from_recorded_qos(self):
+
+    def test_pair_measurement_separates_warmup_from_recorded_qos(self):
         class Host:
             def __init__(self, name, ip):
                 self.name = name
