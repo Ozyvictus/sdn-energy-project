@@ -44,6 +44,7 @@ jobs:
             algorithm/component_energy_model.py \
             algorithm/qos_monitor.py \
             algorithm/traffic_demo.py \
+            tests/run_mininet_integration.py \
             launch.py
 
   mininet-integration:
