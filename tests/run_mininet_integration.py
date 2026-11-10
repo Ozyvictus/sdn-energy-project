@@ -97,7 +97,7 @@ def wait_for_monitor_snapshot(timeout_seconds: int = 30) -> dict:
 
 
 def check_qos_measurement_batch(net, timeout_seconds: int = 30) -> None:
-    """Run one live 24-pair QoS batch and validate the resulting CSV records."""
+    """Run one live 16-pair QoS batch and validate the resulting CSV records."""
     with tempfile.TemporaryDirectory(prefix="sdn-qos-ci-") as output_dir:
         monitor = QoSMonitor(
             net,
@@ -132,14 +132,16 @@ def check_qos_measurement_batch(net, timeout_seconds: int = 30) -> None:
 
         if int(summary["pairs_expected"]) != 120:
             raise AssertionError(f"Expected 120 host pairs, got {summary['pairs_expected']}")
-        if int(summary["pairs_scheduled"]) != 24:
-            raise AssertionError(f"Expected 24 scheduled pairs, got {summary['pairs_scheduled']}")
-        if int(summary["pairs_measured"]) != 24:
-            raise AssertionError(f"Expected 24 valid pair measurements, got {summary['pairs_measured']}")
-        if len(pair_rows) != 24:
-            raise AssertionError(f"Expected 24 per-pair CSV rows, got {len(pair_rows)}")
+        if int(summary["pairs_scheduled"]) != 16:
+            raise AssertionError(f"Expected 16 scheduled pairs, got {summary['pairs_scheduled']}")
+        if int(summary["pairs_measured"]) != 16:
+            raise AssertionError(f"Expected 16 valid pair measurements, got {summary['pairs_measured']}")
+        if len(pair_rows) != 16:
+            raise AssertionError(f"Expected 16 per-pair CSV rows, got {len(pair_rows)}")
         if any(row.get("ping_count") != "3" for row in pair_rows):
-            raise AssertionError("QoS pair CSV does not show three ICMP probes per pair")
+            raise AssertionError("QoS pair CSV does not show three measured ICMP probes per pair")
+        if any(row.get("warmup_ping_count") != "1" for row in pair_rows):
+            raise AssertionError("QoS pair CSV does not show one separate warm-up probe per pair")
         print(
             "[INTEGRATION] QoS measurement batch PASS: "
             f"{summary['pairs_measured']}/{summary['pairs_expected']} valid overall pairs, "
