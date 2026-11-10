@@ -6,7 +6,7 @@ rotate deterministically, so a 16-host Fat-Tree (120 pairs) is covered over
 five QoS cycles rather than forcing all 120 probes into one slot.
 
 Each ICMP measurement sends multiple packets. Linux ping's mdev is recorded
-as RTT variation (jitter_ms); it is not an RFC 3550 inter-arrival jitter
+as the RTT standard deviation (jitter_ms); it is not an RFC 3550 inter-arrival jitter
 measurement. Throughput is a separate, rotating iperf3 sample.
 """
 
