@@ -81,7 +81,8 @@ from algorithm.traffic_utilisation import (
     generate_utilisation_graph
 )
 
-from config import get_link_capacity
+from config import FAT_TREE_K, get_link_capacity
+from topology.fattree_spec import build_fat_tree_spec
 
 
 # ================================================================
@@ -1074,6 +1075,25 @@ class TopologyMonitor(app_manager.OSKenApp):
             self._link_name(self._canonical_link(link.src.dpid, link.dst.dpid))
             for link in topology_links
         })
+        expected_spec = build_fat_tree_spec(FAT_TREE_K)
+        expected_inter_switch_links = sorted({
+            self._link_name(self._canonical_link(int(left[1:]), int(right[1:])))
+            for left, right in expected_spec.inter_switch_links
+        })
+        missing_inter_switch_links = sorted(
+            set(expected_inter_switch_links) - set(unique_topology_links)
+        )
+        unexpected_inter_switch_links = sorted(
+            set(unique_topology_links) - set(expected_inter_switch_links)
+        )
+        if missing_inter_switch_links or unexpected_inter_switch_links:
+            self.logger.warning(
+                "TOPOLOGY DISCOVERY COVERAGE | discovered=%d/%d | missing=%d | unexpected=%d",
+                len(unique_topology_links),
+                len(expected_inter_switch_links),
+                len(missing_inter_switch_links),
+                len(unexpected_inter_switch_links),
+            )
         snapshot = {
             "session_id": self.session_id,
             "cycle": int(cycle["cycle"]),
@@ -1091,6 +1111,10 @@ class TopologyMonitor(app_manager.OSKenApp):
             "stats_timed_out": bool(cycle.get("timed_out", False)),
             "topology_switch_count": len(topology_switches),
             "topology_inter_switch_link_count": len(unique_topology_links),
+            "expected_inter_switch_link_count": len(expected_inter_switch_links),
+            "topology_discovery_complete": not missing_inter_switch_links and not unexpected_inter_switch_links,
+            "missing_inter_switch_links": missing_inter_switch_links,
+            "unexpected_inter_switch_links": unexpected_inter_switch_links,
             "link_metric_count": len(link_metrics),
             "switches": sorted({f"s{sw.dp.id}" for sw in topology_switches}),
             "links": unique_topology_links,
