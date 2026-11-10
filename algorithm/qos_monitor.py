@@ -52,7 +52,7 @@ SUMMARY_FIELDS = [
     "batch_pair_coverage_percent", "average_rtt_ms", "p95_rtt_ms",
     "average_jitter_ms", "jitter_metric", "average_packet_loss_percent",
     "maximum_packet_loss_percent", "throughput_pair", "throughput_mbps",
-    "ping_batch_duration_seconds", "ping_batch_within_slot",
+    "slot_budget_seconds", "ping_batch_duration_seconds", "ping_batch_within_slot",
     "sweep_duration_seconds", "active_probes_within_slot",
 ]
 
@@ -320,6 +320,7 @@ class QoSMonitor:
                         # Requests are published at QoS-slot start. Ignore stale or
                         # malformed requests instead of probing outside their time slot.
                         if 0.0 <= age <= 2.0:
+                            snapshot["_request_age_seconds"] = age
                             self.qos_sequence += 1
                             try:
                                 self.run_cycle(snapshot, self.qos_sequence)
@@ -341,6 +342,8 @@ class QoSMonitor:
         session_id = str(snapshot["session_id"])
         sequence = max(1, int(qos_sequence or self.qos_sequence or 1))
         batch_index, batches_per_sweep, pairs = select_pair_batch(all_pairs, sequence)
+        request_age_seconds = max(0.0, float(snapshot.get("_request_age_seconds", 0.0)))
+        slot_budget_seconds = max(0.0, QOS_SLOT_BUDGET_SECONDS - request_age_seconds)
         start_time = time.monotonic()
         print(
             f"{self.logger_prefix} cycle={cycle}: measuring batch "
@@ -374,14 +377,14 @@ class QoSMonitor:
                 results.append(row)
 
         ping_batch_duration = time.monotonic() - start_time
-        ping_batch_within_slot = ping_batch_duration <= QOS_SLOT_BUDGET_SECONDS
+        ping_batch_within_slot = ping_batch_duration <= slot_budget_seconds
 
         # One rotating, active throughput test per QoS phase. It starts only after
         # this batch's ICMP probes complete so it does not contaminate RTT samples.
         throughput_pair_name = ""
         throughput_mbps = None
         enough_time_for_iperf = (
-            QOS_SLOT_BUDGET_SECONDS - ping_batch_duration
+            slot_budget_seconds - ping_batch_duration
             >= self.iperf_duration_seconds + 1.0
         )
         if self.enable_rotating_iperf and pairs and ping_batch_within_slot and enough_time_for_iperf:
@@ -447,10 +450,11 @@ class QoSMonitor:
             "maximum_packet_loss_percent": max(valid_loss) if valid_loss else None,
             "throughput_pair": throughput_pair_name,
             "throughput_mbps": throughput_mbps,
+            "slot_budget_seconds": round(slot_budget_seconds, 3),
             "ping_batch_duration_seconds": round(ping_batch_duration, 3),
             "ping_batch_within_slot": ping_batch_within_slot,
             "sweep_duration_seconds": round(sweep_duration, 3),
-            "active_probes_within_slot": sweep_duration <= QOS_SLOT_BUDGET_SECONDS,
+            "active_probes_within_slot": sweep_duration <= slot_budget_seconds,
         }
         _append_rows(self.summary_csv, SUMMARY_FIELDS, [summary])
         print(
