@@ -50,7 +50,8 @@ class TrafficDemoTopologyTests(unittest.TestCase):
             for edge, host in spec.host_links
         )
         self.assertLess(max(rate for _name, rate in PROFILES), host_link_capacity)
-\n    def test_target_attainment_distinguishes_requested_from_achieved_rate(self):
+
+    def test_target_attainment_distinguishes_requested_from_achieved_rate(self):
         self.assertEqual(_target_attainment_percent(10.0, 20.0), 50.0)
         self.assertEqual(_target_attainment_percent(20.0, 20.0), 100.0)
         self.assertIsNone(_target_attainment_percent(None, 20.0))
