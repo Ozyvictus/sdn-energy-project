@@ -12,6 +12,8 @@ from __future__ import annotations
 import subprocess
 import time
 
+from topology.port_map import MININET_PORT_MAP_PATH, build_switch_port_map, write_switch_port_map
+
 from mininet.cli import CLI
 from mininet.link import TCLink
 from mininet.log import setLogLevel
@@ -80,6 +82,35 @@ def build_topology(k: int = FAT_TREE_K, *, enable_stp: bool = ENABLE_STP):
         )
 
     net.build()
+
+    # Publish the physical switch-to-switch inventory from Mininet's actual
+    # interface port numbers. This includes STP-blocked links that LLDP cannot
+    # necessarily discover while STP is active.
+    link_endpoints = [
+        (
+            link.intf1.node.name,
+            int(link.intf1.port),
+            link.intf2.node.name,
+            int(link.intf2.port),
+        )
+        for link in net.links
+    ]
+    physical_port_map = build_switch_port_map(
+        link_endpoints,
+        spec.switches,
+        expected_links=spec.inter_switch_links,
+    )
+    write_switch_port_map(
+        MININET_PORT_MAP_PATH,
+        k=k,
+        port_map=physical_port_map,
+    )
+    print(
+        f"Published physical switch-port inventory: "
+        f"{len({row['link'] for row in physical_port_map})} links, "
+        f"{len(physical_port_map)} switch ports -> {MININET_PORT_MAP_PATH}"
+    )
+
     controller.start()
 
     for switch in net.switches:
