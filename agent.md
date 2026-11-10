@@ -67,7 +67,7 @@ The original 6-switch, 8-host topology remains on the ccnsdemo branch. Do not si
 - Host-facing links are excluded from the inter-switch link energy model.
 - Energy must use actual elapsed time and component-state durations, not traffic-active port counts or assumed fixed cycle durations. The first sample uses the nominal interval; subsequent intervals use monotonic cycle start-to-start time.
 - QoS pair coverage must be explicit: k=4 has 16 hosts and 120 unique unordered pairs; 24 pairs are measured per QoS cycle and a full sweep spans five QoS cycles.
-- The QoS jitter_ms field is Linux ping RTT mdev (RTT variation), not RFC 3550 inter-arrival jitter.
+- The QoS jitter_ms field is Linux ping RTT mdev (round-trip-time standard deviation), not RFC 3550 inter-arrival jitter.
 - QoS monitoring is started explicitly from the Mininet CLI; it is not started automatically by the topology launcher.
 
 ## Optimization strategy
