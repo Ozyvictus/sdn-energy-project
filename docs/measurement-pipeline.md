@@ -75,7 +75,7 @@ A rotating one-second iperf3 TCP sample is attempted only when the ICMP batch fi
 | `/tmp/sdn_energy_cycle.json` | Latest controller cycle snapshot, including topology counts and port-stat reply coverage |
 | `/tmp/sdn_energy_qos_request.json` | Current QoS-phase request consumed by the Mininet-side worker |
 
-The controller snapshot reports `topology_switch_count`, `topology_inter_switch_link_count`, `link_metric_count`, `switches_expected_replies`, `switches_received_replies`, `switch_reply_coverage_percent`, `stats_complete`, and `energy_interval_seconds`. For a stable k=4 run, the discovered topology should eventually report 20 switches and 32 inter-switch links. A partial port-stat response is explicitly marked; do not treat a cycle with incomplete switch replies as a complete measurement.
+The controller snapshot reports `topology_switch_count`, `topology_inter_switch_link_count`, `link_metric_count`, `switches_expected_replies`, `switches_received_replies`, `switch_reply_coverage_percent`, `stats_complete`, and `energy_interval_seconds`. When a previous QoS CSV uses an older header, the monitor preserves that file and automatically writes the new schema to a versioned sibling such as `qos_pair_measurements_v2.csv` or `qos_cycle_summary_v2.csv`. It reuses that versioned file on subsequent runs when its header matches, rather than mixing rows with different schemas. For a stable k=4 run, the discovered topology should eventually report 20 switches and 32 inter-switch links. A partial port-stat response is explicitly marked; do not treat a cycle with incomplete switch replies as a complete measurement.
 
 ## Interpreting the energy data
 
