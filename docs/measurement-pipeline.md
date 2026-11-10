@@ -6,6 +6,7 @@ This document describes the baseline measurement path for the k=4 Fat-Tree. It d
 
 - `launch.py` starts the OS-Ken controller, L2 forwarding app, topology discovery, and `controller.monitor.TopologyMonitor`.
 - `controller/monitor.py` polls OpenFlow port counters, calculates inter-switch link rates/utilization, tracks traffic-active ports, and records component-state energy estimates.
+- `topology/port_map.py` validates and writes the complete physical switch-port inventory built from Mininet's actual interface port numbers. This inventory includes STP-blocked redundant links.
 - `algorithm/qos_monitor.py` runs from the Mininet CLI as a separate worker. It probes rotating host-pair batches during QoS cycles.
 - `algorithm/traffic_demo.py` generates four UDP flows in a ring across the four Fat-Tree pods and records the offered-load experiment.
 - `algorithm/component_energy_model.py` estimates power from configured component states. It does not measure physical Mininet or OVS power.
@@ -75,7 +76,9 @@ A rotating one-second iperf3 TCP sample is attempted only when the ICMP batch fi
 | `/tmp/sdn_energy_cycle.json` | Latest controller cycle snapshot, including topology counts and port-stat reply coverage |
 | `/tmp/sdn_energy_qos_request.json` | Current QoS-phase request consumed by the Mininet-side worker |
 
-The controller snapshot reports `topology_switch_count`, `topology_inter_switch_link_count` (currently LLDP-discovered links), `expected_inter_switch_link_count` (the Fat-Tree inventory count), `topology_discovery_complete`, `missing_inter_switch_links`, `unexpected_inter_switch_links`, `link_metric_count`, `switches_expected_replies`, `switches_received_replies`, `switch_reply_coverage_percent`, `stats_complete`, and `energy_interval_seconds`. When a previous QoS CSV uses an older header, the monitor preserves that file and automatically writes the new schema to a versioned sibling such as `qos_pair_measurements_v2.csv` or a later schema version when fields change. It reuses that versioned file on subsequent runs when its header matches, rather than mixing rows with different schemas. For a stable k=4 run, the expected inventory is 20 switches and 32 inter-switch links. The LLDP-discovered link count can be lower while STP is active or discovery is incomplete; use the explicit missing-link list rather than treating the discovered count as the physical inventory. A partial port-stat response is explicitly marked; do not treat a cycle with incomplete switch replies as a complete measurement.
+Mininet writes `/tmp/sdn_energy_port_map.json` from the actual switch interfaces and port numbers. The controller uses this physical inventory for port-to-link rate attribution, including links blocked by STP. The controller snapshot reports `topology_switch_count`, `topology_inter_switch_link_count` (physical links in the Mininet inventory), `expected_inter_switch_link_count`, `physical_port_map_source`, `physical_link_inventory_complete`, `lldp_discovered_inter_switch_link_count`, `lldp_missing_inter_switch_links`, `link_metric_count`, `switches_expected_replies`, `switches_received_replies`, `switch_reply_coverage_percent`, `stats_complete`, and `energy_interval_seconds`.
+
+LLDP is retained as a separate diagnostic view. With STP enabled, LLDP may only see forwarding links and therefore fewer than all 32 physical links. Do not treat the LLDP count alone as the physical topology inventory. When a previous QoS CSV uses an older header, the monitor preserves that file and automatically writes the new schema to a versioned sibling such as `qos_pair_measurements_v2.csv` or a later schema version when fields change. It reuses that versioned file on subsequent runs when its header matches, rather than mixing rows with different schemas. For a stable k=4 run, the expected inventory is 20 switches and 32 inter-switch links. The LLDP-discovered link count can be lower while STP is active or discovery is incomplete; use the explicit missing-link list rather than treating the discovered count as the physical inventory. A partial port-stat response is explicitly marked; do not treat a cycle with incomplete switch replies as a complete measurement.
 
 ## Interpreting the energy data
 
@@ -87,7 +90,7 @@ The optimizer is not yet actuating link sleep/wake operations. Until such actuat
 
 1. Start the controller, Mininet, and QoS worker; allow topology discovery and at least one full pair sweep to complete.
 2. Run the traffic demo and confirm all four UDP flows report `status=ok`. Also inspect sender/receiver target-attainment percentages; a completed iperf3 process does not guarantee that the requested rate was achieved.
-3. Check the controller snapshot for 20 switches, 32 inter-switch links, and complete OpenFlow reply coverage.
+3. Check the controller snapshot for 20 switches, 32 physical inter-switch links from `mininet_net_links`, the separate LLDP-visible link count, and complete OpenFlow reply coverage.
 4. Check that each QoS summary reports 120 expected pairs, 16 (or the final remainder) scheduled pairs, and valid measurements for reachable pairs. Confirm the separate warm-up fields are populated.
 5. Repeat the experiment from a fresh controller session at least three times before calculating mean and variability for the baseline.
 6. Retain each run's raw CSV files and manifest. Join traffic-profile windows to controller/QoS samples by timestamps and the corresponding controller session ID where available.
