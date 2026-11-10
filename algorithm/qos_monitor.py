@@ -1,9 +1,10 @@
 """Rotating end-to-end QoS measurements for a Mininet topology.
 
 The controller alternates five-second energy and QoS cycles. On each QoS
-cycle this worker probes one batch of unique unordered host pairs. Batches
-rotate deterministically, so a 16-host Fat-Tree (120 pairs) is covered over
-five QoS cycles rather than forcing all 120 probes into one slot.
+cycle this worker probes one batch of unique unordered host pairs. Each pair
+gets an unrecorded warm-up ping before its measured probes. Batches rotate
+deterministically, so a 16-host Fat-Tree (120 pairs) is covered over eight
+QoS cycles rather than forcing all 120 probes into one slot.
 
 Each ICMP measurement sends multiple packets. Linux ping's mdev is recorded
 as the RTT standard deviation (jitter_ms); it is not an RFC 3550 inter-arrival jitter
@@ -31,9 +32,10 @@ DEFAULT_DATA_DIR = PROJECT_ROOT / "data"
 QOS_REQUEST_PATH = "/tmp/sdn_energy_qos_request.json"
 FILE_POLL_SECONDS = 0.10
 PING_COUNT = 3
+WARMUP_PING_COUNT = 1
 PING_WAIT_SECONDS = 1
-MAX_CONCURRENT_PINGS = 24
-QOS_PAIR_BATCH_SIZE = 24
+MAX_CONCURRENT_PINGS = 16
+QOS_PAIR_BATCH_SIZE = 16
 QOS_SLOT_BUDGET_SECONDS = 4.0
 MAX_QOS_REQUEST_AGE_SECONDS = 1.0
 ENABLE_ROTATING_IPERF = True
@@ -44,6 +46,7 @@ IPERF_CONNECT_TIMEOUT_MS = 700
 PING_FIELDS = [
     "session_id", "cycle", "timestamp_utc", "src_host", "dst_host",
     "src_ip", "dst_ip", "latency_ms", "jitter_ms", "jitter_metric", "ping_count",
+    "warmup_ping_count", "warmup_latency_ms", "warmup_reachable", "warmup_measurement_valid",
     "packet_loss_percent", "reachable", "packets_sent", "packets_received",
     "measurement_valid", "ping_output", "throughput_mbps", "throughput_test_status",
 ]
@@ -399,6 +402,8 @@ class QoSMonitor:
                         "dst_ip": _ip(dst) if _safe_ip(dst) else "",
                         "latency_ms": None, "jitter_ms": None,
                         "jitter_metric": "unavailable", "ping_count": PING_COUNT,
+                        "warmup_ping_count": WARMUP_PING_COUNT, "warmup_latency_ms": None,
+                        "warmup_reachable": False, "warmup_measurement_valid": False,
                         "packet_loss_percent": None, "reachable": False,
                         "packets_sent": None, "packets_received": None,
                         "measurement_valid": False,
@@ -499,7 +504,14 @@ class QoSMonitor:
     def _measure_pair(self, src: Any, dst: Any) -> dict:
         src_ip = _ip(src)
         dst_ip = _ip(dst)
-        result = measure_latency_loss(src, dst_ip)
+
+        # The first packet may pay ARP/neighbor-discovery or path warm-up cost.
+        # Record it separately, then calculate reported QoS from the measured
+        # three-packet probe so startup delay does not dominate steady-state RTT.
+        warmup = measure_latency_loss(
+            src, dst_ip, count=WARMUP_PING_COUNT, timeout_seconds=PING_WAIT_SECONDS
+        )
+        result = measure_latency_loss(src, dst_ip, count=PING_COUNT)
         return {
             "src_host": src.name,
             "dst_host": dst.name,
@@ -509,6 +521,10 @@ class QoSMonitor:
             "jitter_ms": result.get("jitter_ms"),
             "jitter_metric": "linux_ping_rtt_mdev" if result.get("jitter_ms") is not None else "unavailable",
             "ping_count": PING_COUNT,
+            "warmup_ping_count": WARMUP_PING_COUNT,
+            "warmup_latency_ms": warmup.get("latency_ms"),
+            "warmup_reachable": bool(warmup.get("reachable")),
+            "warmup_measurement_valid": bool(warmup.get("measurement_valid")),
             "packet_loss_percent": result.get("packet_loss_percent"),
             "reachable": bool(result.get("reachable")),
             "packets_sent": result.get("packets_sent"),
