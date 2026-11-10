@@ -5,8 +5,11 @@ It expects launch.py to be running as the OpenFlow controller on 127.0.0.1:6653.
 """
 from __future__ import annotations
 
+import csv
+import json
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -17,6 +20,7 @@ from mininet.log import setLogLevel
 
 from config import FAT_TREE_K, STP_CONVERGENCE_SECONDS
 from topology.mininet_topo import build_topology
+from algorithm.qos_monitor import QoSMonitor
 
 
 def ovs_value(*args: str) -> str:
@@ -68,6 +72,82 @@ def check_pair(net, source_name: str, destination_name: str) -> None:
         )
 
 
+def wait_for_monitor_snapshot(timeout_seconds: int = 30) -> dict:
+    """Wait for a complete OpenFlow stats snapshot of the discovered k=4 fabric."""
+    snapshot_path = Path("/tmp/sdn_energy_cycle.json")
+    deadline = time.monotonic() + timeout_seconds
+    latest = None
+    while time.monotonic() < deadline:
+        try:
+            latest = json.loads(snapshot_path.read_text(encoding="utf-8"))
+            if (
+                latest.get("topology_switch_count") == 20
+                and latest.get("topology_inter_switch_link_count") == 32
+                and latest.get("stats_complete") is True
+                and float(latest.get("energy_interval_seconds", 0)) > 0
+            ):
+                return latest
+        except (OSError, json.JSONDecodeError, TypeError, ValueError):
+            pass
+        time.sleep(0.25)
+    raise AssertionError(
+        "Controller did not publish a complete k=4 monitoring snapshot; "
+        f"last snapshot={latest}"
+    )
+
+
+def check_qos_measurement_batch(net, timeout_seconds: int = 30) -> None:
+    """Run one live 24-pair QoS batch and validate the resulting CSV records."""
+    with tempfile.TemporaryDirectory(prefix="sdn-qos-ci-") as output_dir:
+        monitor = QoSMonitor(
+            net,
+            data_dir=output_dir,
+            enable_rotating_iperf=False,
+        ).start()
+        summary_path = Path(output_dir) / "qos_cycle_summary.csv"
+        pair_path = Path(output_dir) / "qos_pair_measurements.csv"
+        summary = None
+        pair_rows = []
+        deadline = time.monotonic() + timeout_seconds
+        try:
+            while time.monotonic() < deadline:
+                if summary_path.exists() and summary_path.stat().st_size:
+                    try:
+                        with summary_path.open("r", newline="", encoding="utf-8") as handle:
+                            summaries = list(csv.DictReader(handle))
+                        with pair_path.open("r", newline="", encoding="utf-8") as handle:
+                            pair_rows = list(csv.DictReader(handle))
+                        if summaries:
+                            summary = summaries[-1]
+                            if len(pair_rows) >= int(summary["pairs_scheduled"]):
+                                break
+                    except (OSError, csv.Error, KeyError, ValueError):
+                        pass
+                time.sleep(0.2)
+        finally:
+            monitor.stop()
+
+        if summary is None:
+            raise AssertionError("QoS monitor did not complete a batch before timeout")
+
+        if int(summary["pairs_expected"]) != 120:
+            raise AssertionError(f"Expected 120 host pairs, got {summary['pairs_expected']}")
+        if int(summary["pairs_scheduled"]) != 24:
+            raise AssertionError(f"Expected 24 scheduled pairs, got {summary['pairs_scheduled']}")
+        if int(summary["pairs_measured"]) != 24:
+            raise AssertionError(f"Expected 24 valid pair measurements, got {summary['pairs_measured']}")
+        if len(pair_rows) != 24:
+            raise AssertionError(f"Expected 24 per-pair CSV rows, got {len(pair_rows)}")
+        if any(row.get("ping_count") != "3" for row in pair_rows):
+            raise AssertionError("QoS pair CSV does not show three ICMP probes per pair")
+        print(
+            "[INTEGRATION] QoS measurement batch PASS: "
+            f"{summary['pairs_measured']}/{summary['pairs_expected']} valid overall pairs, "
+            f"batch {summary['batch_index']}/{summary['batches_per_sweep']}, "
+            f"{summary['ping_batch_duration_seconds']}s"
+        )
+
+
 def main() -> None:
     setLogLevel("info")
     if FAT_TREE_K != 4:
@@ -103,7 +183,17 @@ def main() -> None:
                 f"Full k=4 Fat-Tree pingAll has {all_hosts_loss:.1f}% packet loss"
             )
 
-        print("\n[INTEGRATION] PASS: all k=4 Fat-Tree hosts are reachable.")
+        snapshot = wait_for_monitor_snapshot()
+        print(
+            "\n[INTEGRATION] Monitoring snapshot PASS: "
+            f"{snapshot['topology_switch_count']} switches, "
+            f"{snapshot['topology_inter_switch_link_count']} unique links, "
+            f"{snapshot['switch_reply_coverage_percent']}% switch-stat coverage, "
+            f"{snapshot['energy_interval_seconds']}s energy interval"
+        )
+        check_qos_measurement_batch(net)
+
+        print("\n[INTEGRATION] PASS: topology, monitoring, QoS batch, and host reachability validated.")
     finally:
         if net is not None:
             net.stop()
