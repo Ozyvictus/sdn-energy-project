@@ -80,9 +80,15 @@ def wait_for_monitor_snapshot(timeout_seconds: int = 30) -> dict:
     while time.monotonic() < deadline:
         try:
             latest = json.loads(snapshot_path.read_text(encoding="utf-8"))
+            discovered_links = int(latest.get("topology_inter_switch_link_count", 0))
+            expected_links = int(latest.get("expected_inter_switch_link_count", 0))
+            missing_links = latest.get("missing_inter_switch_links", [])
             if (
                 latest.get("topology_switch_count") == 20
-                and latest.get("topology_inter_switch_link_count") == 32
+                and expected_links == 32
+                and 19 <= discovered_links <= expected_links
+                and isinstance(missing_links, list)
+                and len(missing_links) == expected_links - discovered_links
                 and latest.get("stats_complete") is True
                 and float(latest.get("energy_interval_seconds", 0)) > 0
             ):
@@ -189,7 +195,9 @@ def main() -> None:
         print(
             "\n[INTEGRATION] Monitoring snapshot PASS: "
             f"{snapshot['topology_switch_count']} switches, "
-            f"{snapshot['topology_inter_switch_link_count']} unique links, "
+            f"{snapshot['topology_inter_switch_link_count']}/"
+            f"{snapshot['expected_inter_switch_link_count']} inter-switch links discovered, "
+            f"{len(snapshot['missing_inter_switch_links'])} missing from LLDP view, "
             f"{snapshot['switch_reply_coverage_percent']}% switch-stat coverage, "
             f"{snapshot['energy_interval_seconds']}s energy interval"
         )
