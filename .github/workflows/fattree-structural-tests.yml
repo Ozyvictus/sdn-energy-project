@@ -10,6 +10,8 @@ on:
     paths:
       - "topology/**"
       - "controller/**"
+      - "algorithm/**"
+      - "docs/**"
       - "config.py"
       - "launch.py"
       - "tests/**"
@@ -27,8 +29,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Run Fat-Tree structural tests
-        run: python -m unittest discover -s tests -p "test_fattree.py" -v
+      - name: Run Python unit tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
 
       - name: Compile topology and controller modules
         run: |
@@ -38,6 +40,10 @@ jobs:
             config.py \
             controller/l2_forwarding.py \
             controller/monitor.py \
+            algorithm/measurement_utils.py \
+            algorithm/component_energy_model.py \
+            algorithm/qos_monitor.py \
+            algorithm/traffic_demo.py \
             launch.py
 
   mininet-integration:
