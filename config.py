@@ -1,55 +1,40 @@
-"""
-config.py
+"""Shared network configuration derived from the selected topology."""
 
-Single place for constants shared across the controller, topology script,
-and (later) the optimization algorithm. Change values here rather than
-hunting through multiple files.
-"""
+from topology.fattree_spec import build_fat_tree_spec
 
 OPENFLOW_PORT = 6653
 
-# Link capacities
-LINK_CAPACITY_MBPS = {
+# Canonical k=4 Fat-Tree is the default topology for this branch.
+FAT_TREE_K = 4
+HOST_LINK_BW_MBPS = 100
+SWITCH_LINK_BW_MBPS = 1000
+ENABLE_STP = True
+STP_CONVERGENCE_SECONDS = 90
 
-    # Core-to-core link
-    ("s1", "s2"): 1000,
+_DEFAULT_TOPOLOGY = build_fat_tree_spec(
+    FAT_TREE_K,
+    host_link_bw=HOST_LINK_BW_MBPS,
+    switch_link_bw=SWITCH_LINK_BW_MBPS,
+)
 
-    # Core-to-edge links
-    ("s1", "s3"): 1000,
-    ("s2", "s3"): 1000,
+# Includes both fabric links and host-facing links. The component energy
+# model filters for switch-to-switch links; the monitor uses this map to
+# obtain the correct capacity for discovered inter-switch links.
+LINK_CAPACITY_MBPS = dict(_DEFAULT_TOPOLOGY.link_capacities_mbps)
 
-    ("s1", "s4"): 1000,
-    ("s2", "s4"): 1000,
+NETWORK_SWITCH_NAMES = _DEFAULT_TOPOLOGY.switches
+NETWORK_HOST_NAMES = _DEFAULT_TOPOLOGY.hosts
+NETWORK_HOST_IPS = dict(_DEFAULT_TOPOLOGY.host_ips)
+INTER_SWITCH_LINKS = _DEFAULT_TOPOLOGY.inter_switch_links
+HOST_FACING_LINKS = _DEFAULT_TOPOLOGY.host_links
 
-    ("s1", "s5"): 1000,
-    ("s2", "s5"): 1000,
-
-    ("s1", "s6"): 1000,
-    ("s2", "s6"): 1000,
-
-    # Edge-to-host links
-    ("s3", "h1"): 100,
-    ("s3", "h2"): 100,
-
-    ("s4", "h3"): 100,
-    ("s4", "h4"): 100,
-
-    ("s5", "h5"): 100,
-    ("s5", "h6"): 100,
-
-    ("s6", "h7"): 100,
-    ("s6", "h8"): 100,
-}
 
 def get_link_capacity(node1, node2):
-    """
-    Return link capacity in Mbps regardless of link direction.
-    """
-
-    if (node1, node2) in LINK_CAPACITY_MBPS:
-        return LINK_CAPACITY_MBPS[(node1, node2)]
-
-    if (node2, node1) in LINK_CAPACITY_MBPS:
-        return LINK_CAPACITY_MBPS[(node2, node1)]
-
+    """Return configured link capacity in Mbps, independent of endpoint order."""
+    direct = (str(node1).lower(), str(node2).lower())
+    reverse = (direct[1], direct[0])
+    if direct in LINK_CAPACITY_MBPS:
+        return LINK_CAPACITY_MBPS[direct]
+    if reverse in LINK_CAPACITY_MBPS:
+        return LINK_CAPACITY_MBPS[reverse]
     return None

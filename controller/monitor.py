@@ -20,7 +20,7 @@ Architecture:
           |
       Port Statistics
           |
-      10-second cycle
+      5-second target cadence
           |
       Network-wide active ports
           |
@@ -73,6 +73,7 @@ from os_ken.topology.api import get_switch, get_link
 
 from algorithm.component_energy_model import ComponentEnergyModel
 from algorithm.active_port_metrics import record_active_port_metrics
+from algorithm.measurement_utils import elapsed_sample_interval
 
 from algorithm.traffic_utilisation import (
     record_link_utilisation,
@@ -80,7 +81,9 @@ from algorithm.traffic_utilisation import (
     generate_utilisation_graph
 )
 
-from config import get_link_capacity
+from config import FAT_TREE_K, get_link_capacity
+from topology.fattree_spec import build_fat_tree_spec
+from topology.port_map import MININET_PORT_MAP_PATH
 
 
 # ================================================================
@@ -168,6 +171,12 @@ class TopologyMonitor(app_manager.OSKenApp):
         self.session_id = uuid.uuid4().hex
         self.component_energy_model = ComponentEnergyModel()
         self.port_to_link = {}
+        self.port_map_source = "osken_lldp"
+        self.physical_inter_switch_links = []
+        self.lldp_discovered_link_names = set()
+        # Energy is integrated over the actual start-to-start interval between
+        # state samples. The first sample uses the configured nominal cadence.
+        self.previous_cycle_start_monotonic = None
 
         # ==========================================================
         # START MONITORING THREAD
@@ -231,44 +240,116 @@ class TopologyMonitor(app_manager.OSKenApp):
     # TOPOLOGY DISCOVERY
     # ================================================================
 
-    def _refresh_topology_mapping(self):
-        """
-        Refresh the port-to-logical-link mapping
-        from OS-Ken's topology database.
-        """
+    def _load_mininet_physical_port_map(self):
+        """Load the complete Mininet port map, including STP-blocked links."""
+        try:
+            with open(MININET_PORT_MAP_PATH, "r", encoding="utf-8") as handle:
+                payload = json.load(handle)
+        except (OSError, json.JSONDecodeError):
+            return False
 
-        links = get_link(self, None)
+        if payload.get("schema_version") != 1 or payload.get("topology_k") != FAT_TREE_K:
+            self.logger.warning("Ignoring incompatible Mininet port map at %s", MININET_PORT_MAP_PATH)
+            return False
 
-        if not links:
+        spec = build_fat_tree_spec(FAT_TREE_K)
+        expected_links = {
+            self._link_name(self._canonical_link(int(left[1:]), int(right[1:])))
+            for left, right in spec.inter_switch_links
+        }
+        expected_switches = {int(name[1:]) for name in spec.switches}
+        rows = payload.get("port_map")
+        if not isinstance(rows, list):
+            self.logger.warning("Mininet port map has no valid port_map list")
+            return False
+
+        mapping = {}
+        physical_links = set()
+        for row in rows:
+            try:
+                dpid = int(row["dpid"])
+                port_no = int(row["port_no"])
+                peer_dpid = int(row["peer_dpid"])
+                peer_port_no = int(row["peer_port_no"])
+                link_name = str(row["link"])
+            except (KeyError, TypeError, ValueError):
+                self.logger.warning("Ignoring malformed row in Mininet port map")
+                return False
+
+            canonical_name = self._link_name(self._canonical_link(dpid, peer_dpid))
+            if (
+                dpid not in expected_switches
+                or peer_dpid not in expected_switches
+                or port_no <= 0
+                or peer_port_no <= 0
+                or link_name != canonical_name
+                or link_name not in expected_links
+            ):
+                self.logger.warning("Ignoring invalid Mininet port-map row: %s", row)
+                return False
+
+            key = (dpid, port_no)
+            value = (f"s{min(dpid, peer_dpid)}", f"s{max(dpid, peer_dpid)}")
+            if key in mapping and mapping[key] != value:
+                self.logger.warning("Conflicting Mininet port mapping for %s", key)
+                return False
+            mapping[key] = value
+            physical_links.add(link_name)
+
+        # A canonical k=4 Fat-Tree has 32 links and exactly two switch ports
+        # per link. Validate the complete reciprocal mapping before using it.
+        if physical_links != expected_links or len(mapping) != 2 * len(expected_links):
             self.logger.warning(
-                "TOPOLOGY REFRESH: no links discovered yet"
+                "Incomplete Mininet port map: links=%d/%d ports=%d/%d",
+                len(physical_links), len(expected_links), len(mapping), 2 * len(expected_links),
+            )
+            return False
+
+        self.port_to_link = mapping
+        self.physical_inter_switch_links = sorted(physical_links)
+        self.port_map_source = "mininet_net_links"
+        return True
+
+    def _refresh_topology_mapping(self):
+        """Prefer Mininet's physical inventory; retain LLDP as a separate view."""
+        links = get_link(self, None)
+        self.lldp_discovered_link_names = {
+            self._link_name(self._canonical_link(link.src.dpid, link.dst.dpid))
+            for link in links
+        }
+
+        if self._load_mininet_physical_port_map():
+            self.logger.info(
+                "TOPOLOGY PORT MAP: physical=%d links/%d ports source=%s; "
+                "LLDP currently sees %d links",
+                len(self.physical_inter_switch_links),
+                len(self.port_to_link),
+                self.port_map_source,
+                len(self.lldp_discovered_link_names),
             )
             return
 
+        # Fallback is useful before Mininet has published its port inventory.
+        if not links:
+            self.logger.warning("TOPOLOGY REFRESH: no LLDP links discovered and no Mininet port map")
+            return
+
         self.port_to_link.clear()
-
         for link in links:
-
             src = link.src
             dst = link.dst
+            logical_link = self._canonical_link(src.dpid, dst.dpid)
+            self.port_to_link[(src.dpid, src.port_no)] = logical_link
+            self.port_to_link[(dst.dpid, dst.port_no)] = logical_link
 
-            logical_link = self._canonical_link(
-                src.dpid,
-                dst.dpid
-            )
-
-            self.port_to_link[
-                (src.dpid, src.port_no)
-            ] = logical_link
-
-            self.port_to_link[
-                (dst.dpid, dst.port_no)
-            ] = logical_link
-
+        self.physical_inter_switch_links = sorted({
+            self._link_name(value) for value in self.port_to_link.values()
+        })
+        self.port_map_source = "osken_lldp"
         self.logger.info(
-            "TOPOLOGY REFRESH: %d links, %d port mappings",
+            "TOPOLOGY REFRESH: LLDP=%d directed links/%d switch-port mappings",
             len(links),
-            len(self.port_to_link)
+            len(self.port_to_link),
         )
 
     @set_ev_cls(topo_event.EventSwitchEnter)
@@ -450,6 +531,7 @@ class TopologyMonitor(app_manager.OSKenApp):
                 "cycle": self.cycle_number,
                 "phase": "energy" if self.cycle_number % 2 == 1 else "qos",
                 "start_time": time.time(),
+                "start_monotonic": cycle_loop_started,
                 "expected_dpids": expected_dpids,
                 "received_dpids": set(),
                 "active_ports": {},
@@ -622,7 +704,9 @@ class TopologyMonitor(app_manager.OSKenApp):
 
             return
 
-        current_time = time.time()
+        # Port-counter deltas use a monotonic clock so wall-clock/NTP changes
+        # cannot create negative or distorted traffic-rate intervals.
+        current_time = time.monotonic()
 
         active_ports_for_switch = 0
 
@@ -1057,6 +1141,51 @@ class TopologyMonitor(app_manager.OSKenApp):
                 "utilization_percent": (rate_mbps / capacity_mbps) * 100.0,
             })
 
+        expected_switches = len(cycle["expected_dpids"])
+        received_switches = len(cycle["received_dpids"])
+        reply_coverage = (
+            received_switches / expected_switches * 100.0
+            if expected_switches else 0.0
+        )
+        unique_topology_links = sorted({
+            self._link_name(self._canonical_link(link.src.dpid, link.dst.dpid))
+            for link in topology_links
+        })
+        expected_spec = build_fat_tree_spec(FAT_TREE_K)
+        expected_inter_switch_links = sorted({
+            self._link_name(self._canonical_link(int(left[1:]), int(right[1:])))
+            for left, right in expected_spec.inter_switch_links
+        })
+        physical_link_names = sorted(set(self.physical_inter_switch_links))
+        if not physical_link_names:
+            physical_link_names = sorted({
+                self._link_name(value) for value in self.port_to_link.values()
+            })
+        missing_inter_switch_links = sorted(
+            set(expected_inter_switch_links) - set(physical_link_names)
+        )
+        unexpected_inter_switch_links = sorted(
+            set(physical_link_names) - set(expected_inter_switch_links)
+        )
+        missing_lldp_inter_switch_links = sorted(
+            set(expected_inter_switch_links) - set(unique_topology_links)
+        )
+        if missing_inter_switch_links or unexpected_inter_switch_links:
+            self.logger.warning(
+                "PHYSICAL PORT INVENTORY COVERAGE | source=%s | inventory=%d/%d | missing=%d | unexpected=%d",
+                self.port_map_source,
+                len(physical_link_names),
+                len(expected_inter_switch_links),
+                len(missing_inter_switch_links),
+                len(unexpected_inter_switch_links),
+            )
+        if missing_lldp_inter_switch_links:
+            self.logger.info(
+                "LLDP VIEW | discovered=%d/%d active links; %d links are not visible through LLDP",
+                len(unique_topology_links),
+                len(expected_inter_switch_links),
+                len(missing_lldp_inter_switch_links),
+            )
         snapshot = {
             "session_id": self.session_id,
             "cycle": int(cycle["cycle"]),
@@ -1064,11 +1193,28 @@ class TopologyMonitor(app_manager.OSKenApp):
             "timestamp_epoch": time.time(),
             "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "interval_seconds": POLL_INTERVAL_SECONDS,
+            "energy_interval_seconds": cycle.get("energy_interval_seconds", POLL_INTERVAL_SECONDS),
+            "cycle_started_epoch": cycle["start_time"],
+            "cycle_processing_duration_seconds": round(time.time() - cycle["start_time"], 3),
+            "switches_expected_replies": expected_switches,
+            "switches_received_replies": received_switches,
+            "switch_reply_coverage_percent": round(reply_coverage, 2),
+            "stats_complete": received_switches == expected_switches,
+            "stats_timed_out": bool(cycle.get("timed_out", False)),
+            "topology_switch_count": len(topology_switches),
+            "topology_inter_switch_link_count": len(physical_link_names),
+            "expected_inter_switch_link_count": len(expected_inter_switch_links),
+            "topology_discovery_complete": not missing_inter_switch_links and not unexpected_inter_switch_links,
+            "physical_link_inventory_complete": not missing_inter_switch_links and not unexpected_inter_switch_links,
+            "physical_port_map_source": self.port_map_source,
+            "missing_inter_switch_links": missing_inter_switch_links,
+            "unexpected_inter_switch_links": unexpected_inter_switch_links,
+            "lldp_discovered_inter_switch_link_count": len(unique_topology_links),
+            "lldp_missing_inter_switch_links": missing_lldp_inter_switch_links,
+            "link_metric_count": len(link_metrics),
             "switches": sorted({f"s{sw.dp.id}" for sw in topology_switches}),
-            "links": sorted({
-                self._link_name(self._canonical_link(link.src.dpid, link.dst.dpid))
-                for link in topology_links
-            }),
+            "links": physical_link_names,
+            "lldp_links": unique_topology_links,
             "network_active_ports": sum(cycle["active_ports"].values()),
             "link_metrics": link_metrics,
             "energy": cycle.get("energy_result", {}),
@@ -1184,9 +1330,16 @@ class TopologyMonitor(app_manager.OSKenApp):
             for link in topology_links
         ]
         self.component_energy_model.sync_topology(switch_names, link_names)
+        energy_interval_seconds = elapsed_sample_interval(
+            self.previous_cycle_start_monotonic,
+            cycle["start_monotonic"],
+            POLL_INTERVAL_SECONDS,
+        )
+        self.previous_cycle_start_monotonic = cycle["start_monotonic"]
+        cycle["energy_interval_seconds"] = energy_interval_seconds
         energy_result = self.component_energy_model.record_cycle(
             cycle=cycle["cycle"],
-            duration_seconds=POLL_INTERVAL_SECONDS,
+            duration_seconds=energy_interval_seconds,
             phase=cycle["phase"],
             session_id=self.session_id,
         )
@@ -1217,7 +1370,7 @@ class TopologyMonitor(app_manager.OSKenApp):
         self._record_cycle_link_utilisation()
 
         advance_time(
-            POLL_INTERVAL_SECONDS
+            energy_interval_seconds
         )
 
         generate_utilisation_graph()

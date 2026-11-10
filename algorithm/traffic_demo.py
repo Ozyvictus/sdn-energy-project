@@ -8,7 +8,7 @@ Run this module from the Mininet CLI, after the topology is started:
 
 The demo runs:
   * a quiet baseline (no generated demo workload),
-  * three simultaneous inter-edge UDP flows at 10, 25, and 60 Mbps per flow,
+  * four simultaneous inter-pod UDP flows at 10, 25, and 60 Mbps per flow,
   * a quiet cooldown.
 
 The controller/QoS monitors continue independently. This script records the
@@ -32,12 +32,15 @@ from typing import Any, Dict, List, Optional
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_ROOT = PROJECT_ROOT / "data" / "traffic_demo"
 
-# Inter-edge pairs for the project's 8-host topology.
+# Directed flow ring spanning all four pods and all eight edge switches.
+# Host mapping is defined by topology/fattree_spec.py:
+# pod 0: h1-h4, pod 1: h5-h8, pod 2: h9-h12, pod 3: h13-h16.
 # Dynamic ports reduce the risk of colliding with old iperf3 test servers.
 FLOW_LAYOUT = (
-    ("h1", "h5"),
-    ("h3", "h7"),
-    ("h2", "h8"),
+    ("h1", "h5"),    # pod 0 -> pod 1, edge s13 -> s15
+    ("h7", "h11"),   # pod 1 -> pod 2, edge s16 -> s18
+    ("h9", "h13"),   # pod 2 -> pod 3, edge s17 -> s19
+    ("h15", "h3"),   # pod 3 -> pod 0, edge s20 -> s14
 )
 
 PROFILES = (
@@ -140,6 +143,13 @@ def _as_mbps(section: Optional[Dict[str, Any]]) -> Optional[float]:
         return float(value) / 1_000_000.0 if value is not None else None
     except (TypeError, ValueError):
         return None
+
+
+def _target_attainment_percent(actual_mbps: Optional[float], target_mbps: float) -> Optional[float]:
+    """Return achieved rate as a percentage of the requested offered rate."""
+    if actual_mbps is None or target_mbps <= 0:
+        return None
+    return round(float(actual_mbps) / float(target_mbps) * 100.0, 2)
 
 
 def _extract_iperf_result(path: Path, returncode: Optional[int]) -> Dict[str, Any]:
@@ -270,8 +280,8 @@ def _run_load_profile(
     start_mono = time.monotonic()
     jobs = []
 
-    # All three clients start concurrently, making each profile a repeatable
-    # aggregate offered-load level instead of three sequential tests.
+    # All configured clients start concurrently, making each profile a repeatable
+    # aggregate offered-load level instead of sequential tests.
     try:
         for flow in flows:
             log_handle = flow["log_path"].open("w", encoding="utf-8")
@@ -304,7 +314,8 @@ def _run_load_profile(
         "source_host", "destination_host", "destination_ip", "server_port",
         "requested_duration_seconds", "profile_start_utc", "profile_end_utc",
         "profile_elapsed_seconds", "process_returncode",
-        "sent_mbps", "received_mbps", "udp_packet_loss_percent",
+        "sent_mbps", "received_mbps", "sender_target_attainment_percent",
+        "receiver_target_attainment_percent", "udp_packet_loss_percent",
         "udp_jitter_ms", "status", "error", "iperf_json_path",
     ]
 
@@ -328,6 +339,12 @@ def _run_load_profile(
             "process_returncode": proc.returncode,
             "sent_mbps": measurement["sent_mbps"],
             "received_mbps": measurement["received_mbps"],
+            "sender_target_attainment_percent": _target_attainment_percent(
+                measurement["sent_mbps"], target_mbps
+            ),
+            "receiver_target_attainment_percent": _target_attainment_percent(
+                measurement["received_mbps"], target_mbps
+            ),
             "udp_packet_loss_percent": measurement["udp_packet_loss_percent"],
             "udp_jitter_ms": measurement["udp_jitter_ms"],
             "status": measurement["status"],
@@ -418,7 +435,10 @@ def run_demo(
     try:
         print(f"\n[traffic-demo] Run ID: {run_id}", flush=True)
         print(f"[traffic-demo] Results: {run_dir}", flush=True)
-        print("[traffic-demo] Checking and starting three inter-edge iperf3 servers...", flush=True)
+        print(
+            f"[traffic-demo] Checking and starting {len(FLOW_LAYOUT)} inter-pod iperf3 servers...",
+            flush=True,
+        )
 
         for src, dst in FLOW_LAYOUT:
             log_path = run_dir / f"iperf_server_{dst}.log"
@@ -459,10 +479,10 @@ def run_demo(
             str(controller_snapshot),
         )
 
-        # Run each load profile; three client processes run concurrently per profile.
+        # Run each load profile; all configured flow clients run concurrently.
         for profile, rate in PROFILES:
             print(
-                f"\n[traffic-demo] {profile.upper()}: starting three concurrent UDP flows "
+                f"\n[traffic-demo] {profile.upper()}: starting {len(FLOW_LAYOUT)} concurrent UDP flows "
                 f"at {rate} Mbps each (target aggregate {rate * len(FLOW_LAYOUT)} Mbps) "
                 f"for {profile_seconds}s.",
                 flush=True,
@@ -475,13 +495,14 @@ def run_demo(
             phase_end = time.time()
             _write_phase(
                 phase_path, run_id, profile, phase_start, phase_end, profile_seconds,
-                f"Three concurrent UDP flows at {rate} Mbps target per flow.",
+                f"{len(FLOW_LAYOUT)} concurrent UDP flows at {rate} Mbps target per flow.",
                 str(controller_snapshot),
             )
             for row in rows:
                 print(
                     f"[traffic-demo] {row['source_host']}->{row['destination_host']}: "
                     f"sent={row['sent_mbps']} Mbps, received={row['received_mbps']} Mbps, "
+                    f"receiver_target_attainment={row['receiver_target_attainment_percent']}%, "
                     f"loss={row['udp_packet_loss_percent']}%, status={row['status']}"
                     + (f", error={row['error']}" if row["error"] else ""),
                     flush=True,
