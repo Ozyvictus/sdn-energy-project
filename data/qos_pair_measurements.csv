@@ -112895,3 +112895,1179 @@ rtt min/avg/max/mdev = 0.037/0.037/0.037/0.000 ms",,not_tested
 --- 10.0.0.8 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.030/0.030/0.030/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h1,h2,10.0.0.1,10.0.0.2,0.045,0.0,0.0,True,1,1,True,"PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=0.045 ms
+
+--- 10.0.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.045/0.045/0.045/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h1,h3,10.0.0.1,10.0.0.3,0.069,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.069 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.069/0.069/0.069/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h1,h4,10.0.0.1,10.0.0.4,0.407,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.407 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.407/0.407/0.407/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h1,h5,10.0.0.1,10.0.0.5,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h1,h6,10.0.0.1,10.0.0.6,0.076,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.076 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.076/0.076/0.076/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h1,h7,10.0.0.1,10.0.0.7,0.027,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.027 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.027/0.027/0.027/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h1,h8,10.0.0.1,10.0.0.8,0.036,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h2,h3,10.0.0.2,10.0.0.3,0.048,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.048 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.048/0.048/0.048/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h2,h4,10.0.0.2,10.0.0.4,0.036,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h2,h5,10.0.0.2,10.0.0.5,0.039,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.039 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.039/0.039/0.039/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h2,h6,10.0.0.2,10.0.0.6,0.035,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.035 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.035/0.035/0.035/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h2,h7,10.0.0.2,10.0.0.7,0.055,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.055 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.055/0.055/0.055/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h2,h8,10.0.0.2,10.0.0.8,0.195,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.195 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.195/0.195/0.195/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h3,h4,10.0.0.3,10.0.0.4,0.304,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.304 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.304/0.304/0.304/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h3,h5,10.0.0.3,10.0.0.5,0.031,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.031 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.031/0.031/0.031/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h3,h6,10.0.0.3,10.0.0.6,0.03,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.030 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.030/0.030/0.030/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h3,h7,10.0.0.3,10.0.0.7,0.024,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.024 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.024/0.024/0.024/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h3,h8,10.0.0.3,10.0.0.8,0.032,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.032 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.032/0.032/0.032/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h4,h5,10.0.0.4,10.0.0.5,0.174,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.174 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.174/0.174/0.174/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h4,h6,10.0.0.4,10.0.0.6,0.033,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.033 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.033/0.033/0.033/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h4,h7,10.0.0.4,10.0.0.7,0.344,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.344 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.344/0.344/0.344/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h4,h8,10.0.0.4,10.0.0.8,0.042,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.042 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.042/0.042/0.042/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h5,h6,10.0.0.5,10.0.0.6,0.023,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.023 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.023/0.023/0.023/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h5,h7,10.0.0.5,10.0.0.7,0.063,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.063 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.063/0.063/0.063/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h5,h8,10.0.0.5,10.0.0.8,0.052,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.052 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.052/0.052/0.052/0.000 ms",54.567699378762455,ok
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h6,h7,10.0.0.6,10.0.0.7,0.033,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.033 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.033/0.033/0.033/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h6,h8,10.0.0.6,10.0.0.8,0.044,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.044 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.044/0.044/0.044/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1000,2026-11-10T19:24:19.035885+00:00,h7,h8,10.0.0.7,10.0.0.8,0.029,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.029 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.029/0.029/0.029/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h1,h2,10.0.0.1,10.0.0.2,0.728,0.0,0.0,True,1,1,True,"PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=0.728 ms
+
+--- 10.0.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.728/0.728/0.728/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h1,h3,10.0.0.1,10.0.0.3,0.148,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.148 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.148/0.148/0.148/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h1,h4,10.0.0.1,10.0.0.4,0.153,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.153 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.153/0.153/0.153/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h1,h5,10.0.0.1,10.0.0.5,0.238,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.238 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.238/0.238/0.238/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h1,h6,10.0.0.1,10.0.0.6,0.098,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.098 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.098/0.098/0.098/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h1,h7,10.0.0.1,10.0.0.7,0.036,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h1,h8,10.0.0.1,10.0.0.8,0.156,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.156 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.156/0.156/0.156/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h2,h3,10.0.0.2,10.0.0.3,0.173,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.173 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.173/0.173/0.173/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h2,h4,10.0.0.2,10.0.0.4,0.155,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.155 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.155/0.155/0.155/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h2,h5,10.0.0.2,10.0.0.5,0.037,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.037 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.037/0.037/0.037/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h2,h6,10.0.0.2,10.0.0.6,0.059,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.059 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.059/0.059/0.059/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h2,h7,10.0.0.2,10.0.0.7,0.059,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.059 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.059/0.059/0.059/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h2,h8,10.0.0.2,10.0.0.8,0.043,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.043 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.043/0.043/0.043/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h3,h4,10.0.0.3,10.0.0.4,0.042,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.042 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.042/0.042/0.042/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h3,h5,10.0.0.3,10.0.0.5,0.041,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.041 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.041/0.041/0.041/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h3,h6,10.0.0.3,10.0.0.6,0.033,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.033 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.033/0.033/0.033/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h3,h7,10.0.0.3,10.0.0.7,0.141,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.141 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.141/0.141/0.141/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h3,h8,10.0.0.3,10.0.0.8,0.096,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.096 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.096/0.096/0.096/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h4,h5,10.0.0.4,10.0.0.5,0.054,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.054 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.054/0.054/0.054/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h4,h6,10.0.0.4,10.0.0.6,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h4,h7,10.0.0.4,10.0.0.7,0.036,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h4,h8,10.0.0.4,10.0.0.8,0.099,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.099 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.099/0.099/0.099/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h5,h6,10.0.0.5,10.0.0.6,0.027,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.027 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.027/0.027/0.027/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h5,h7,10.0.0.5,10.0.0.7,0.041,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.041 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.041/0.041/0.041/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h5,h8,10.0.0.5,10.0.0.8,0.042,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.042 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.042/0.042/0.042/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h6,h7,10.0.0.6,10.0.0.7,0.041,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.041 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.041/0.041/0.041/0.000 ms",80.31553942917185,ok
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h6,h8,10.0.0.6,10.0.0.8,0.036,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1002,2026-11-10T19:24:29.055609+00:00,h7,h8,10.0.0.7,10.0.0.8,0.029,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.029 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.029/0.029/0.029/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h1,h2,10.0.0.1,10.0.0.2,0.081,0.0,0.0,True,1,1,True,"PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=0.081 ms
+
+--- 10.0.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.081/0.081/0.081/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h1,h3,10.0.0.1,10.0.0.3,0.07,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.070 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 1ms
+rtt min/avg/max/mdev = 0.070/0.070/0.070/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h1,h4,10.0.0.1,10.0.0.4,0.057,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.057 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.057/0.057/0.057/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h1,h5,10.0.0.1,10.0.0.5,0.035,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.035 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.035/0.035/0.035/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h1,h6,10.0.0.1,10.0.0.6,0.057,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.057 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.057/0.057/0.057/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h1,h7,10.0.0.1,10.0.0.7,0.058,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.058 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.058/0.058/0.058/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h1,h8,10.0.0.1,10.0.0.8,0.045,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.045 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.045/0.045/0.045/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h2,h3,10.0.0.2,10.0.0.3,0.252,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.252 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.252/0.252/0.252/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h2,h4,10.0.0.2,10.0.0.4,0.181,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.181 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.181/0.181/0.181/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h2,h5,10.0.0.2,10.0.0.5,0.038,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.038 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h2,h6,10.0.0.2,10.0.0.6,0.032,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.032 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.032/0.032/0.032/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h2,h7,10.0.0.2,10.0.0.7,0.039,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.039 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.039/0.039/0.039/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h2,h8,10.0.0.2,10.0.0.8,0.032,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.032 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.032/0.032/0.032/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h3,h4,10.0.0.3,10.0.0.4,0.031,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.031 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.031/0.031/0.031/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h3,h5,10.0.0.3,10.0.0.5,0.038,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.038 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h3,h6,10.0.0.3,10.0.0.6,0.043,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.043 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.043/0.043/0.043/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h3,h7,10.0.0.3,10.0.0.7,0.046,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.046 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.046/0.046/0.046/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h3,h8,10.0.0.3,10.0.0.8,0.04,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.040 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.040/0.040/0.040/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h4,h5,10.0.0.4,10.0.0.5,0.055,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.055 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.055/0.055/0.055/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h4,h6,10.0.0.4,10.0.0.6,0.222,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.222 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.222/0.222/0.222/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h4,h7,10.0.0.4,10.0.0.7,0.05,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.050 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.050/0.050/0.050/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h4,h8,10.0.0.4,10.0.0.8,0.038,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.038 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h5,h6,10.0.0.5,10.0.0.6,0.029,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.029 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.029/0.029/0.029/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h5,h7,10.0.0.5,10.0.0.7,0.05,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.050 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.050/0.050/0.050/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h5,h8,10.0.0.5,10.0.0.8,0.04,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.040 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.040/0.040/0.040/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h6,h7,10.0.0.6,10.0.0.7,0.037,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.037 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.037/0.037/0.037/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h6,h8,10.0.0.6,10.0.0.8,0.062,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.062 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.062/0.062/0.062/0.000 ms",77.1000426464317,ok
+719ad144d5024fb3a6eb5e73e0885c45,1004,2026-11-10T19:24:39.041916+00:00,h7,h8,10.0.0.7,10.0.0.8,0.046,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.046 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.046/0.046/0.046/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h1,h2,10.0.0.1,10.0.0.2,0.038,0.0,0.0,True,1,1,True,"PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=0.038 ms
+
+--- 10.0.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h1,h3,10.0.0.1,10.0.0.3,0.08,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.080 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.080/0.080/0.080/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h1,h4,10.0.0.1,10.0.0.4,0.063,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.063 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.063/0.063/0.063/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h1,h5,10.0.0.1,10.0.0.5,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h1,h6,10.0.0.1,10.0.0.6,0.06,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.060 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.060/0.060/0.060/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h1,h7,10.0.0.1,10.0.0.7,0.035,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.035 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.035/0.035/0.035/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h1,h8,10.0.0.1,10.0.0.8,0.36,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.360 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.360/0.360/0.360/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h2,h3,10.0.0.2,10.0.0.3,0.04,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.040 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.040/0.040/0.040/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h2,h4,10.0.0.2,10.0.0.4,0.043,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.043 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.043/0.043/0.043/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h2,h5,10.0.0.2,10.0.0.5,0.065,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.065 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.065/0.065/0.065/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h2,h6,10.0.0.2,10.0.0.6,0.061,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.061 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.061/0.061/0.061/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h2,h7,10.0.0.2,10.0.0.7,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h2,h8,10.0.0.2,10.0.0.8,0.048,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.048 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.048/0.048/0.048/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h3,h4,10.0.0.3,10.0.0.4,0.035,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.035 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.035/0.035/0.035/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h3,h5,10.0.0.3,10.0.0.5,0.038,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.038 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h3,h6,10.0.0.3,10.0.0.6,0.089,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.089 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.089/0.089/0.089/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h3,h7,10.0.0.3,10.0.0.7,0.035,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.035 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.035/0.035/0.035/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h3,h8,10.0.0.3,10.0.0.8,0.033,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.033 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.033/0.033/0.033/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h4,h5,10.0.0.4,10.0.0.5,0.07,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.070 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.070/0.070/0.070/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h4,h6,10.0.0.4,10.0.0.6,0.056,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.056 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.056/0.056/0.056/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h4,h7,10.0.0.4,10.0.0.7,0.038,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.038 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h4,h8,10.0.0.4,10.0.0.8,0.027,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.027 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.027/0.027/0.027/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h5,h6,10.0.0.5,10.0.0.6,0.028,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.028 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.028/0.028/0.028/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h5,h7,10.0.0.5,10.0.0.7,0.044,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.044 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.044/0.044/0.044/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h5,h8,10.0.0.5,10.0.0.8,0.075,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.075 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.075/0.075/0.075/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h6,h7,10.0.0.6,10.0.0.7,0.069,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.069 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.069/0.069/0.069/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h6,h8,10.0.0.6,10.0.0.8,0.035,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.035 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.035/0.035/0.035/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1006,2026-11-10T19:24:48.995629+00:00,h7,h8,10.0.0.7,10.0.0.8,0.024,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.024 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.024/0.024/0.024/0.000 ms",62.5396705584198,ok
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h1,h2,10.0.0.1,10.0.0.2,0.05,0.0,0.0,True,1,1,True,"PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=0.050 ms
+
+--- 10.0.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.050/0.050/0.050/0.000 ms",65.05293116350848,ok
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h1,h3,10.0.0.1,10.0.0.3,0.057,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.057 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.057/0.057/0.057/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h1,h4,10.0.0.1,10.0.0.4,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h1,h5,10.0.0.1,10.0.0.5,0.044,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.044 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.044/0.044/0.044/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h1,h6,10.0.0.1,10.0.0.6,0.057,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.057 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.057/0.057/0.057/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h1,h7,10.0.0.1,10.0.0.7,0.033,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.033 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.033/0.033/0.033/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h1,h8,10.0.0.1,10.0.0.8,0.036,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h2,h3,10.0.0.2,10.0.0.3,0.035,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.035 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.035/0.035/0.035/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h2,h4,10.0.0.2,10.0.0.4,0.036,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h2,h5,10.0.0.2,10.0.0.5,0.049,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.049 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.049/0.049/0.049/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h2,h6,10.0.0.2,10.0.0.6,0.036,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h2,h7,10.0.0.2,10.0.0.7,0.062,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.062 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.062/0.062/0.062/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h2,h8,10.0.0.2,10.0.0.8,0.058,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.058 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.058/0.058/0.058/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h3,h4,10.0.0.3,10.0.0.4,0.024,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.024 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.024/0.024/0.024/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h3,h5,10.0.0.3,10.0.0.5,0.083,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.083 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.083/0.083/0.083/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h3,h6,10.0.0.3,10.0.0.6,0.043,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.043 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.043/0.043/0.043/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h3,h7,10.0.0.3,10.0.0.7,0.052,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.052 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.052/0.052/0.052/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h3,h8,10.0.0.3,10.0.0.8,0.041,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.041 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.041/0.041/0.041/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h4,h5,10.0.0.4,10.0.0.5,0.072,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.072 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.072/0.072/0.072/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h4,h6,10.0.0.4,10.0.0.6,0.067,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.067 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.067/0.067/0.067/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h4,h7,10.0.0.4,10.0.0.7,0.037,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.037 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.037/0.037/0.037/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h4,h8,10.0.0.4,10.0.0.8,0.03,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.030 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.030/0.030/0.030/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h5,h6,10.0.0.5,10.0.0.6,0.367,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.367 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.367/0.367/0.367/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h5,h7,10.0.0.5,10.0.0.7,0.053,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.053 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.053/0.053/0.053/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h5,h8,10.0.0.5,10.0.0.8,0.047,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.047 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.047/0.047/0.047/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h6,h7,10.0.0.6,10.0.0.7,0.078,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.078 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.078/0.078/0.078/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h6,h8,10.0.0.6,10.0.0.8,0.209,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.209 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.209/0.209/0.209/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1008,2026-11-10T19:24:59.097786+00:00,h7,h8,10.0.0.7,10.0.0.8,0.03,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.030 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.030/0.030/0.030/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h1,h2,10.0.0.1,10.0.0.2,0.08,0.0,0.0,True,1,1,True,"PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=0.080 ms
+
+--- 10.0.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.080/0.080/0.080/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h1,h3,10.0.0.1,10.0.0.3,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",67.51753742409817,ok
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h1,h4,10.0.0.1,10.0.0.4,0.044,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.044 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.044/0.044/0.044/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h1,h5,10.0.0.1,10.0.0.5,1.057,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=1.06 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 1.057/1.057/1.057/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h1,h6,10.0.0.1,10.0.0.6,0.044,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.044 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.044/0.044/0.044/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h1,h7,10.0.0.1,10.0.0.7,0.043,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.043 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.043/0.043/0.043/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h1,h8,10.0.0.1,10.0.0.8,0.056,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.056 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.056/0.056/0.056/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h2,h3,10.0.0.2,10.0.0.3,0.042,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.042 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.042/0.042/0.042/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h2,h4,10.0.0.2,10.0.0.4,0.039,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.039 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.039/0.039/0.039/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h2,h5,10.0.0.2,10.0.0.5,0.044,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.044 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.044/0.044/0.044/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h2,h6,10.0.0.2,10.0.0.6,0.042,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.042 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.042/0.042/0.042/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h2,h7,10.0.0.2,10.0.0.7,0.044,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.044 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.044/0.044/0.044/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h2,h8,10.0.0.2,10.0.0.8,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h3,h4,10.0.0.3,10.0.0.4,0.027,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.027 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.027/0.027/0.027/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h3,h5,10.0.0.3,10.0.0.5,0.071,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.071 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.071/0.071/0.071/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h3,h6,10.0.0.3,10.0.0.6,0.07,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.070 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.070/0.070/0.070/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h3,h7,10.0.0.3,10.0.0.7,0.029,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.029 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.029/0.029/0.029/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h3,h8,10.0.0.3,10.0.0.8,0.041,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.041 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.041/0.041/0.041/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h4,h5,10.0.0.4,10.0.0.5,0.053,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.053 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.053/0.053/0.053/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h4,h6,10.0.0.4,10.0.0.6,0.049,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.049 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.049/0.049/0.049/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h4,h7,10.0.0.4,10.0.0.7,0.042,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.042 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.042/0.042/0.042/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h4,h8,10.0.0.4,10.0.0.8,0.031,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.031 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.031/0.031/0.031/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h5,h6,10.0.0.5,10.0.0.6,0.033,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.033 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.033/0.033/0.033/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h5,h7,10.0.0.5,10.0.0.7,0.032,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.032 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.032/0.032/0.032/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h5,h8,10.0.0.5,10.0.0.8,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h6,h7,10.0.0.6,10.0.0.7,0.042,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.042 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.042/0.042/0.042/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h6,h8,10.0.0.6,10.0.0.8,0.036,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1010,2026-11-10T19:25:09.027836+00:00,h7,h8,10.0.0.7,10.0.0.8,0.02,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.020 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.020/0.020/0.020/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h1,h2,10.0.0.1,10.0.0.2,0.047,0.0,0.0,True,1,1,True,"PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=0.047 ms
+
+--- 10.0.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.047/0.047/0.047/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h1,h3,10.0.0.1,10.0.0.3,0.039,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.039 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.039/0.039/0.039/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h1,h4,10.0.0.1,10.0.0.4,0.049,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.049 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.049/0.049/0.049/0.000 ms",52.91884850654742,ok
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h1,h5,10.0.0.1,10.0.0.5,0.048,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.048 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.048/0.048/0.048/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h1,h6,10.0.0.1,10.0.0.6,0.038,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.038 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h1,h7,10.0.0.1,10.0.0.7,0.058,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.058 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.058/0.058/0.058/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h1,h8,10.0.0.1,10.0.0.8,0.069,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.069 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.069/0.069/0.069/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h2,h3,10.0.0.2,10.0.0.3,0.037,0.0,0.0,True,1,1,True,"PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=0.037 ms
+
+--- 10.0.0.3 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.037/0.037/0.037/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h2,h4,10.0.0.2,10.0.0.4,0.038,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.038 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h2,h5,10.0.0.2,10.0.0.5,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h2,h6,10.0.0.2,10.0.0.6,0.143,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.143 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.143/0.143/0.143/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h2,h7,10.0.0.2,10.0.0.7,0.071,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.071 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.071/0.071/0.071/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h2,h8,10.0.0.2,10.0.0.8,0.279,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.279 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.279/0.279/0.279/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h3,h4,10.0.0.3,10.0.0.4,0.02,0.0,0.0,True,1,1,True,"PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=0.020 ms
+
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.020/0.020/0.020/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h3,h5,10.0.0.3,10.0.0.5,0.041,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.041 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.041/0.041/0.041/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h3,h6,10.0.0.3,10.0.0.6,0.046,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.046 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.046/0.046/0.046/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h3,h7,10.0.0.3,10.0.0.7,0.136,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.136 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.136/0.136/0.136/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h3,h8,10.0.0.3,10.0.0.8,0.034,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h4,h5,10.0.0.4,10.0.0.5,0.041,0.0,0.0,True,1,1,True,"PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=0.041 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.041/0.041/0.041/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h4,h6,10.0.0.4,10.0.0.6,0.033,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.033 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.033/0.033/0.033/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h4,h7,10.0.0.4,10.0.0.7,0.035,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.035 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.035/0.035/0.035/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h4,h8,10.0.0.4,10.0.0.8,0.038,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.038 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.038/0.038/0.038/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h5,h6,10.0.0.5,10.0.0.6,0.028,0.0,0.0,True,1,1,True,"PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=64 time=0.028 ms
+
+--- 10.0.0.6 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.028/0.028/0.028/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h5,h7,10.0.0.5,10.0.0.7,0.044,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.044 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.044/0.044/0.044/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h5,h8,10.0.0.5,10.0.0.8,0.032,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.032 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.032/0.032/0.032/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h6,h7,10.0.0.6,10.0.0.7,0.052,0.0,0.0,True,1,1,True,"PING 10.0.0.7 (10.0.0.7) 56(84) bytes of data.
+64 bytes from 10.0.0.7: icmp_seq=1 ttl=64 time=0.052 ms
+
+--- 10.0.0.7 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.052/0.052/0.052/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h6,h8,10.0.0.6,10.0.0.8,0.032,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.032 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.032/0.032/0.032/0.000 ms",,not_tested
+719ad144d5024fb3a6eb5e73e0885c45,1012,2026-11-10T19:25:19.019322+00:00,h7,h8,10.0.0.7,10.0.0.8,0.023,0.0,0.0,True,1,1,True,"PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=0.023 ms
+
+--- 10.0.0.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.023/0.023/0.023/0.000 ms",,not_tested
