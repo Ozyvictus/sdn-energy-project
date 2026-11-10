@@ -12,7 +12,12 @@ from __future__ import annotations
 import subprocess
 import time
 
-from topology.port_map import MININET_PORT_MAP_PATH, build_switch_port_map, write_switch_port_map
+from topology.port_map import (
+    MININET_PORT_MAP_PATH,
+    build_switch_port_map,
+    mininet_interface_port,
+    write_switch_port_map,
+)
 
 from mininet.cli import CLI
 from mininet.link import TCLink
@@ -89,9 +94,9 @@ def build_topology(k: int = FAT_TREE_K, *, enable_stp: bool = ENABLE_STP):
     link_endpoints = [
         (
             link.intf1.node.name,
-            int(link.intf1.port),
+            mininet_interface_port(link.intf1),
             link.intf2.node.name,
-            int(link.intf2.port),
+            mininet_interface_port(link.intf2),
         )
         for link in net.links
     ]
