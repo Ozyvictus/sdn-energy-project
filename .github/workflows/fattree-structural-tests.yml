@@ -36,6 +36,7 @@ jobs:
         run: |
           python -m py_compile \
             topology/fattree_spec.py \
+            topology/port_map.py \
             topology/mininet_topo.py \
             config.py \
             controller/l2_forwarding.py \
