@@ -66,6 +66,31 @@ class PairBatchTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             select_pair_batch(self.pairs, 1, batch_size=0)
 
+    def test_legacy_csv_is_preserved_and_new_schema_uses_versioned_file(self):
+        import csv
+        import tempfile
+        from pathlib import Path
+
+        from algorithm.qos_monitor import _append_rows
+
+        with tempfile.TemporaryDirectory() as directory:
+            legacy = Path(directory) / "qos_pair_measurements.csv"
+            with legacy.open("w", newline="", encoding="utf-8") as handle:
+                csv.writer(handle).writerow(["old_column"])
+
+            current = _append_rows(
+                legacy,
+                ["new_column"],
+                [{"new_column": "kept_separate"}],
+            )
+
+            self.assertEqual(current.name, "qos_pair_measurements_v2.csv")
+            with legacy.open("r", newline="", encoding="utf-8") as handle:
+                self.assertEqual(next(csv.reader(handle)), ["old_column"])
+            with current.open("r", newline="", encoding="utf-8") as handle:
+                rows = list(csv.DictReader(handle))
+            self.assertEqual(rows, [{"new_column": "kept_separate"}])
+
 
 if __name__ == "__main__":
     unittest.main()
