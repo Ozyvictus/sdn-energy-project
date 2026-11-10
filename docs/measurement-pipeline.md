@@ -75,7 +75,7 @@ A rotating one-second iperf3 TCP sample is attempted only when the ICMP batch fi
 | `/tmp/sdn_energy_cycle.json` | Latest controller cycle snapshot, including topology counts and port-stat reply coverage |
 | `/tmp/sdn_energy_qos_request.json` | Current QoS-phase request consumed by the Mininet-side worker |
 
-The controller snapshot reports `topology_switch_count`, `topology_inter_switch_link_count`, `link_metric_count`, `switches_expected_replies`, `switches_received_replies`, `switch_reply_coverage_percent`, `stats_complete`, and `energy_interval_seconds`. When a previous QoS CSV uses an older header, the monitor preserves that file and automatically writes the new schema to a versioned sibling such as `qos_pair_measurements_v2.csv` or `qos_cycle_summary_v2.csv`. It reuses that versioned file on subsequent runs when its header matches, rather than mixing rows with different schemas. For a stable k=4 run, the discovered topology should eventually report 20 switches and 32 inter-switch links. A partial port-stat response is explicitly marked; do not treat a cycle with incomplete switch replies as a complete measurement.
+The controller snapshot reports `topology_switch_count`, `topology_inter_switch_link_count`, `link_metric_count`, `switches_expected_replies`, `switches_received_replies`, `switch_reply_coverage_percent`, `stats_complete`, and `energy_interval_seconds`. When a previous QoS CSV uses an older header, the monitor preserves that file and automatically writes the new schema to a versioned sibling such as `qos_pair_measurements_v2.csv` or a later schema version when fields change. It reuses that versioned file on subsequent runs when its header matches, rather than mixing rows with different schemas. For a stable k=4 run, the discovered topology should eventually report 20 switches and 32 inter-switch links. A partial port-stat response is explicitly marked; do not treat a cycle with incomplete switch replies as a complete measurement.
 
 ## Interpreting the energy data
 
@@ -86,7 +86,7 @@ The optimizer is not yet actuating link sleep/wake operations. Until such actuat
 ## Recommended baseline procedure
 
 1. Start the controller, Mininet, and QoS worker; allow topology discovery and at least one full pair sweep to complete.
-2. Run the traffic demo and confirm all four UDP flows report `status=ok`.
+2. Run the traffic demo and confirm all four UDP flows report `status=ok`. Also inspect sender/receiver target-attainment percentages; a completed iperf3 process does not guarantee that the requested rate was achieved.
 3. Check the controller snapshot for 20 switches, 32 inter-switch links, and complete OpenFlow reply coverage.
 4. Check that each QoS summary reports 120 expected pairs, 16 (or the final remainder) scheduled pairs, and valid measurements for reachable pairs. Confirm the separate warm-up fields are populated.
 5. Repeat the experiment from a fresh controller session at least three times before calculating mean and variability for the baseline.
