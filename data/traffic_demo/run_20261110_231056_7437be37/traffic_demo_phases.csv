@@ -1,0 +1,6 @@
+run_id,phase,start_utc,end_utc,start_epoch,end_epoch,elapsed_seconds,intended_duration_seconds,controller_snapshot_path,note
+20261110_231056_7437be37,baseline,2026-11-10T17:40:57Z,2026-11-10T17:41:07Z,1794332457.670,1794332467.672,10.001,10,/tmp/sdn_energy_cycle.json,No demo workload; controller/QoS monitoring traffic may still occur.
+20261110_231056_7437be37,low,2026-11-10T17:41:07Z,2026-11-10T17:41:28Z,1794332467.675,1794332488.816,21.141,20,/tmp/sdn_energy_cycle.json,Three concurrent UDP flows at 10 Mbps target per flow.
+20261110_231056_7437be37,medium,2026-11-10T17:41:28Z,2026-11-10T17:41:49Z,1794332488.820,1794332509.244,20.425,20,/tmp/sdn_energy_cycle.json,Three concurrent UDP flows at 25 Mbps target per flow.
+20261110_231056_7437be37,high,2026-11-10T17:41:49Z,2026-11-10T17:42:09Z,1794332509.244,1794332529.831,20.586,20,/tmp/sdn_energy_cycle.json,Three concurrent UDP flows at 60 Mbps target per flow.
+20261110_231056_7437be37,cooldown,2026-11-10T17:42:09Z,2026-11-10T17:42:19Z,1794332529.831,1794332539.834,10.003,10,/tmp/sdn_energy_cycle.json,No demo workload; controller/QoS monitoring traffic may still occur.

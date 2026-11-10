@@ -1224,7 +1224,7 @@ class TopologyMonitor(app_manager.OSKenApp):
 
         self.logger.info(
             "Traffic utilisation graph updated in "
-            "./graphs/traffic_utilisation.png"
+            "./graphs/monitoring/traffic_utilisation.png"
         )
 
 

@@ -1,0 +1,56 @@
+{
+  "run_id": "20261110_231056_7437be37",
+  "created_utc": "2026-11-10T17:40:56Z",
+  "description": "Automated Mininet offered-load demonstration; not a physical power measurement.",
+  "topology_pairs": [
+    {
+      "source": "h1",
+      "destination": "h5"
+    },
+    {
+      "source": "h3",
+      "destination": "h7"
+    },
+    {
+      "source": "h2",
+      "destination": "h8"
+    }
+  ],
+  "profiles": [
+    {
+      "name": "low",
+      "target_mbps_per_flow": 10,
+      "target_aggregate_mbps": 30
+    },
+    {
+      "name": "medium",
+      "target_mbps_per_flow": 25,
+      "target_aggregate_mbps": 75
+    },
+    {
+      "name": "high",
+      "target_mbps_per_flow": 60,
+      "target_aggregate_mbps": 180
+    }
+  ],
+  "baseline_seconds": 10,
+  "profile_seconds": 20,
+  "cooldown_seconds": 10,
+  "iperf_ports": {
+    "h5": 54068,
+    "h7": 54069,
+    "h8": 54070
+  },
+  "controller_snapshot_at_start": {
+    "session_id": "5d33a6770ad54c5ba4bfd29298595ccd",
+    "cycle": 71,
+    "phase": "energy",
+    "snapshot_age_seconds_at_start": 2.59
+  },
+  "controller_snapshot_path": "/tmp/sdn_energy_cycle.json",
+  "phase_file": "/home/aniket-nandy/sdn-energy-project/data/traffic_demo/run_20261110_231056_7437be37/traffic_demo_phases.csv",
+  "summary_file": "/home/aniket-nandy/sdn-energy-project/data/traffic_demo/run_20261110_231056_7437be37/traffic_demo_summary.csv",
+  "note": "Target rates are offered UDP rates, not guaranteed delivered throughput. The application controller/QoS monitor runs independently. Join phases to its CSVs using timestamps/session_id. Workload and monitor traffic are not yet classified separately.",
+  "completed_utc": "2026-11-10T17:42:19Z",
+  "status": "completed"
+}

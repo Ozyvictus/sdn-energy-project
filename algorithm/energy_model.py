@@ -1,25 +1,8 @@
+"""Legacy active-port energy calculations retained for compatibility.
+
+This estimate is not a physical power measurement. Current graph output is
+handled by the session measurement and live monitoring graph producers.
 """
-Energy Model for SDN Data Center Network
-
-Q-PoPS-style software energy model:
-    Modeled Power = Active Ports × 0.2 W
-
-This is a modeled estimate, NOT a physical power measurement.
-
-The module also maintains energy/power history and generates graphs
-for:
-    1. Active ports vs time
-    2. Modeled power vs time
-    3. Cumulative energy vs time
-"""
-
-import os
-import matplotlib
-
-# Required when running without a graphical desktop
-matplotlib.use("Agg")
-
-import matplotlib.pyplot as plt
 
 
 # -------------------------------------------------------------------
@@ -29,9 +12,6 @@ import matplotlib.pyplot as plt
 PORT_POWER_W = 0.2
 
 DEFAULT_INTERVAL_SECONDS = 10
-
-GRAPH_DIR = "graphs"
-
 
 # -------------------------------------------------------------------
 # History
@@ -181,158 +161,6 @@ def record_state(active_port_count, duration_seconds):
         "cumulative_energy_wh": cumulative_energy_wh,
         "elapsed_time_seconds": elapsed_time_seconds
     }
-
-
-# -------------------------------------------------------------------
-# Graph Directory
-# -------------------------------------------------------------------
-
-def create_graph_directory():
-    """
-    Create the graph output directory if it does not exist.
-    """
-
-    os.makedirs(GRAPH_DIR, exist_ok=True)
-
-
-# -------------------------------------------------------------------
-# Graph 1: Active Ports
-# -------------------------------------------------------------------
-
-def plot_active_ports():
-    """
-    Generate active ports vs time graph.
-    """
-
-    if not time_history:
-        return
-
-    create_graph_directory()
-
-    plt.figure(figsize=(10, 5))
-
-    plt.plot(
-        time_history,
-        active_port_history,
-        marker="o"
-    )
-
-    plt.xlabel("Time (seconds)")
-    plt.ylabel("Active Ports")
-
-    plt.title("Active Switch Ports Over Time")
-
-    plt.grid(True, alpha=0.3)
-
-    plt.tight_layout()
-
-    plt.savefig(
-        os.path.join(
-            GRAPH_DIR,
-            "active_ports.png"
-        ),
-        dpi=150
-    )
-
-    plt.close()
-
-
-# -------------------------------------------------------------------
-# Graph 2: Modeled Power
-# -------------------------------------------------------------------
-
-def plot_power():
-    """
-    Generate modeled power vs time graph.
-    """
-
-    if not time_history:
-        return
-
-    create_graph_directory()
-
-    plt.figure(figsize=(10, 5))
-
-    plt.plot(
-        time_history,
-        power_history,
-        marker="o"
-    )
-
-    plt.xlabel("Time (seconds)")
-    plt.ylabel("Modeled Power (W)")
-
-    plt.title("Modeled Network Power Over Time")
-
-    plt.grid(True, alpha=0.3)
-
-    plt.tight_layout()
-
-    plt.savefig(
-        os.path.join(
-            GRAPH_DIR,
-            "modeled_power.png"
-        ),
-        dpi=150
-    )
-
-    plt.close()
-
-
-# -------------------------------------------------------------------
-# Graph 3: Cumulative Energy
-# -------------------------------------------------------------------
-
-def plot_energy():
-    """
-    Generate cumulative energy vs time graph.
-    """
-
-    if not time_history:
-        return
-
-    create_graph_directory()
-
-    plt.figure(figsize=(10, 5))
-
-    plt.plot(
-        time_history,
-        energy_history,
-        marker="o"
-    )
-
-    plt.xlabel("Time (seconds)")
-    plt.ylabel("Cumulative Energy (Wh)")
-
-    plt.title("Cumulative Modeled Energy Consumption")
-
-    plt.grid(True, alpha=0.3)
-
-    plt.tight_layout()
-
-    plt.savefig(
-        os.path.join(
-            GRAPH_DIR,
-            "cumulative_energy.png"
-        ),
-        dpi=150
-    )
-
-    plt.close()
-
-
-# -------------------------------------------------------------------
-# Generate All Graphs
-# -------------------------------------------------------------------
-
-def generate_all_graphs():
-    """
-    Generate all energy-related graphs.
-    """
-
-    plot_active_ports()
-    plot_power()
-    plot_energy()
 
 
 # -------------------------------------------------------------------

@@ -17,14 +17,15 @@ It generates one unified graph containing all monitored
 inter-switch links.
 """
 
-import os
+from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-GRAPH_DIR = "graphs"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+GRAPH_DIR = PROJECT_ROOT / "graphs" / "monitoring"
 
 
 # ================================================================
@@ -133,10 +134,7 @@ def advance_time(duration_seconds):
 # ================================================================
 
 def create_graph_directory():
-    os.makedirs(
-        GRAPH_DIR,
-        exist_ok=True
-    )
+    GRAPH_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ================================================================
@@ -189,13 +187,7 @@ def generate_utilisation_graph():
 
     plt.tight_layout()
 
-    plt.savefig(
-        os.path.join(
-            GRAPH_DIR,
-            "traffic_utilisation.png"
-        ),
-        dpi=150
-    )
+    plt.savefig(GRAPH_DIR / "traffic_utilisation.png", dpi=150)
 
     plt.close()
 
