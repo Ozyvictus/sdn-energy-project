@@ -73,6 +73,7 @@ from os_ken.topology.api import get_switch, get_link
 
 from algorithm.component_energy_model import ComponentEnergyModel
 from algorithm.active_port_metrics import record_active_port_metrics
+from algorithm.measurement_utils import elapsed_sample_interval
 
 from algorithm.traffic_utilisation import (
     record_link_utilisation,
@@ -168,6 +169,9 @@ class TopologyMonitor(app_manager.OSKenApp):
         self.session_id = uuid.uuid4().hex
         self.component_energy_model = ComponentEnergyModel()
         self.port_to_link = {}
+        # Energy is integrated over the actual start-to-start interval between
+        # state samples. The first sample uses the configured nominal cadence.
+        self.previous_cycle_start_monotonic = None
 
         # ==========================================================
         # START MONITORING THREAD
@@ -450,6 +454,7 @@ class TopologyMonitor(app_manager.OSKenApp):
                 "cycle": self.cycle_number,
                 "phase": "energy" if self.cycle_number % 2 == 1 else "qos",
                 "start_time": time.time(),
+                "start_monotonic": cycle_loop_started,
                 "expected_dpids": expected_dpids,
                 "received_dpids": set(),
                 "active_ports": {},
@@ -1057,6 +1062,12 @@ class TopologyMonitor(app_manager.OSKenApp):
                 "utilization_percent": (rate_mbps / capacity_mbps) * 100.0,
             })
 
+        expected_switches = len(cycle["expected_dpids"])
+        received_switches = len(cycle["received_dpids"])
+        reply_coverage = (
+            received_switches / expected_switches * 100.0
+            if expected_switches else 0.0
+        )
         snapshot = {
             "session_id": self.session_id,
             "cycle": int(cycle["cycle"]),
@@ -1064,6 +1075,17 @@ class TopologyMonitor(app_manager.OSKenApp):
             "timestamp_epoch": time.time(),
             "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "interval_seconds": POLL_INTERVAL_SECONDS,
+            "energy_interval_seconds": cycle.get("energy_interval_seconds", POLL_INTERVAL_SECONDS),
+            "cycle_started_epoch": cycle["start_time"],
+            "cycle_processing_duration_seconds": round(time.time() - cycle["start_time"], 3),
+            "switches_expected_replies": expected_switches,
+            "switches_received_replies": received_switches,
+            "switch_reply_coverage_percent": round(reply_coverage, 2),
+            "stats_complete": received_switches == expected_switches,
+            "stats_timed_out": bool(cycle.get("timed_out", False)),
+            "topology_switch_count": len(topology_switches),
+            "topology_inter_switch_link_count": len(topology_links),
+            "link_metric_count": len(link_metrics),
             "switches": sorted({f"s{sw.dp.id}" for sw in topology_switches}),
             "links": sorted({
                 self._link_name(self._canonical_link(link.src.dpid, link.dst.dpid))
@@ -1184,9 +1206,16 @@ class TopologyMonitor(app_manager.OSKenApp):
             for link in topology_links
         ]
         self.component_energy_model.sync_topology(switch_names, link_names)
+        energy_interval_seconds = elapsed_sample_interval(
+            self.previous_cycle_start_monotonic,
+            cycle["start_monotonic"],
+            POLL_INTERVAL_SECONDS,
+        )
+        self.previous_cycle_start_monotonic = cycle["start_monotonic"]
+        cycle["energy_interval_seconds"] = energy_interval_seconds
         energy_result = self.component_energy_model.record_cycle(
             cycle=cycle["cycle"],
-            duration_seconds=POLL_INTERVAL_SECONDS,
+            duration_seconds=energy_interval_seconds,
             phase=cycle["phase"],
             session_id=self.session_id,
         )
@@ -1217,7 +1246,7 @@ class TopologyMonitor(app_manager.OSKenApp):
         self._record_cycle_link_utilisation()
 
         advance_time(
-            POLL_INTERVAL_SECONDS
+            energy_interval_seconds
         )
 
         generate_utilisation_graph()
