@@ -10,7 +10,12 @@ from os_ken.controller import ofp_event
 from os_ken.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from os_ken.controller.handler import set_ev_cls
 from os_ken.ofproto import ofproto_v1_3
-from os_ken.lib.packet import packet, ethernet
+from os_ken.lib.packet import packet, ethernet, ether_types
+
+
+# IEEE 802.1 link-local control group: bridge protocols such as LLDP/STP
+# must not be learned or flooded as ordinary host traffic.
+BRIDGE_CONTROL_MAC_PREFIX = "01:80:c2:00:00:"
 
 
 class L2Switch(app_manager.OSKenApp):
@@ -62,7 +67,24 @@ class L2Switch(app_manager.OSKenApp):
             )
             return
 
-        dst = eth.dst
+        dst = eth.dst.lower()
+
+        # OS-Ken's topology discovery app injects LLDP frames to discover
+        # links. The discovery app consumes their PacketIn events too, but
+        # this learning switch must not flood them back into the fabric.
+        # The 01:80:c2:00:00:xx group is reserved for link-local bridge
+        # control protocols and is not ordinary end-host traffic.
+        if (
+            eth.ethertype == ether_types.ETH_TYPE_LLDP
+            or dst.startswith(BRIDGE_CONTROL_MAC_PREFIX)
+        ):
+            self.logger.debug(
+                "Ignoring bridge control frame: dpid=%s in_port=%s "
+                "src=%s dst=%s ethertype=0x%04x",
+                dpid, in_port, eth.src, dst, eth.ethertype,
+            )
+            return
+
         src = eth.src
 
         self.mac_to_port.setdefault(dpid, {})
