@@ -201,17 +201,43 @@ def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _append_rows(path: Path, fields: Sequence[str], rows: Iterable[dict]) -> None:
+def _compatible_csv_path(path: Path, fields: Sequence[str]) -> Path:
+    """Preserve legacy CSVs and find a file whose header matches this schema."""
+    expected = list(fields)
+
+    def header(candidate: Path) -> Optional[List[str]]:
+        if not candidate.exists() or candidate.stat().st_size == 0:
+            return None
+        with candidate.open("r", newline="", encoding="utf-8") as handle:
+            return next(csv.reader(handle), None)
+
+    current_header = header(path)
+    if current_header is None or current_header == expected:
+        return path
+
+    version = 2
+    while version < 1000:
+        candidate = path.with_name(f"{path.stem}_v{version}{path.suffix}")
+        candidate_header = header(candidate)
+        if candidate_header is None or candidate_header == expected:
+            return candidate
+        version += 1
+    raise RuntimeError(f"Could not find a compatible versioned CSV path for {path}")
+
+
+def _append_rows(path: Path, fields: Sequence[str], rows: Iterable[dict]) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     rows = list(rows)
     if not rows:
-        return
+        return _compatible_csv_path(path, fields)
+    path = _compatible_csv_path(path, fields)
     write_header = not path.exists() or path.stat().st_size == 0
     with path.open("a", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(fields), extrasaction="ignore")
         if write_header:
             writer.writeheader()
         writer.writerows(rows)
+    return path
 
 
 def _percentile(values: List[float], percentile: float) -> Optional[float]:
@@ -268,8 +294,12 @@ class QoSMonitor:
         self.net = net
         self.snapshot_path = Path(snapshot_path)
         self.data_dir = Path(data_dir) if data_dir else DEFAULT_DATA_DIR
-        self.pair_csv = self.data_dir / "qos_pair_measurements.csv"
-        self.summary_csv = self.data_dir / "qos_cycle_summary.csv"
+        self.pair_csv = _compatible_csv_path(
+            self.data_dir / "qos_pair_measurements.csv", PING_FIELDS
+        )
+        self.summary_csv = _compatible_csv_path(
+            self.data_dir / "qos_cycle_summary.csv", SUMMARY_FIELDS
+        )
         self.enable_rotating_iperf = bool(enable_rotating_iperf)
         self.iperf_duration_seconds = int(iperf_duration_seconds)
         self.stop_event = threading.Event()
