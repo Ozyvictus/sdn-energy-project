@@ -627,7 +627,9 @@ class TopologyMonitor(app_manager.OSKenApp):
 
             return
 
-        current_time = time.time()
+        # Port-counter deltas use a monotonic clock so wall-clock/NTP changes
+        # cannot create negative or distorted traffic-rate intervals.
+        current_time = time.monotonic()
 
         active_ports_for_switch = 0
 
