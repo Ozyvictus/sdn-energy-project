@@ -1,78 +1,137 @@
-r"""
-topology/mininet_topo.py
+"""Mininet launcher for the canonical k-ary Fat-Tree topology.
 
-Milestone-1 Mininet topology: a small two-tier data-center-style network.
-6 switches (2 core, 4 edge, each edge dual-homed to both core switches),
-8 hosts (2 per edge switch). Redundant paths are intentional -- needed
-for later resilience/failure-recovery testing, and now also to give
-monitor.py's link discovery something non-trivial to report.
+Run from the project root after starting launch.py:
+    sudo -E python3 -m topology.mininet_topo
 
-Usage (from the project root, so `config` is importable):
-    sudo python3 -m topology.mininet_topo
+The topology inventory itself lives in topology/fattree_spec.py so that its
+structure can be unit-tested without installing Mininet.
 """
-import time
+
+from __future__ import annotations
+
 import subprocess
+import time
 
-from mininet.net import Mininet
-from mininet.node import RemoteController, OVSKernelSwitch
 from mininet.cli import CLI
-from mininet.log import setLogLevel
 from mininet.link import TCLink
+from mininet.log import setLogLevel
+from mininet.net import Mininet
+from mininet.node import OVSKernelSwitch, RemoteController
 
-from config import OPENFLOW_PORT
+from config import (
+    ENABLE_STP,
+    FAT_TREE_K,
+    HOST_LINK_BW_MBPS,
+    OPENFLOW_PORT,
+    STP_CONVERGENCE_SECONDS,
+    SWITCH_LINK_BW_MBPS,
+)
+from topology.fattree_spec import build_fat_tree_spec
 
 
-def build_topology():
-    net = Mininet(controller=RemoteController, switch=OVSKernelSwitch,
-                   link=TCLink, autoSetMacs=True)
+def build_topology(k: int = FAT_TREE_K, *, enable_stp: bool = ENABLE_STP):
+    """Build and start a Mininet Fat-Tree controlled by the local OS-Ken app.
 
-    c0 = net.addController('c0', controller=RemoteController,
-                            ip='127.0.0.1', port=OPENFLOW_PORT)
+    Switch IDs are deterministic: core first, then aggregation, then edge.
+    Hosts receive deterministic 10.0.0.x/8 addresses. STP remains enabled by
+    default to preserve the current project's loop-protection behavior while
+    the forwarding strategy is still the existing L2 learning switch.
+    """
+    spec = build_fat_tree_spec(
+        k,
+        host_link_bw=HOST_LINK_BW_MBPS,
+        switch_link_bw=SWITCH_LINK_BW_MBPS,
+    )
 
-    # NOTE: stp=True as a constructor kwarg was unreliable on this
-    # Mininet/OVS version -- we enable STP explicitly via ovs-vsctl
-    # below instead, right after net.build().
-    s1 = net.addSwitch('s1', protocols='OpenFlow13')
-    s2 = net.addSwitch('s2', protocols='OpenFlow13')
-    s3 = net.addSwitch('s3', protocols='OpenFlow13')
-    s4 = net.addSwitch('s4', protocols='OpenFlow13')
-    s5 = net.addSwitch('s5', protocols='OpenFlow13')
-    s6 = net.addSwitch('s6', protocols='OpenFlow13')
+    net = Mininet(
+        controller=RemoteController,
+        switch=OVSKernelSwitch,
+        link=TCLink,
+        autoSetMacs=True,
+    )
+    controller = net.addController(
+        "c0",
+        controller=RemoteController,
+        ip="127.0.0.1",
+        port=OPENFLOW_PORT,
+    )
 
-    net.addLink(s1, s2, bw=1000)
-    for edge in (s3, s4, s5, s6):
-        net.addLink(s1, edge, bw=1000)
-        net.addLink(s2, edge, bw=1000)
+    switch_objects = {
+        name: net.addSwitch(name, protocols="OpenFlow13")
+        for name in spec.switches
+    }
+    host_objects = {
+        name: net.addHost(name, ip=spec.host_ips[name])
+        for name in spec.hosts
+    }
 
-    hosts = []
-    for i, edge in enumerate((s3, s4, s5, s6), start=1):
-        h_a = net.addHost('h%d' % (2 * i - 1))
-        h_b = net.addHost('h%d' % (2 * i))
-        net.addLink(h_a, edge, bw=100)
-        net.addLink(h_b, edge, bw=100)
-        hosts.extend([h_a, h_b])
+    for switch_a, switch_b in spec.inter_switch_links:
+        net.addLink(
+            switch_objects[switch_a],
+            switch_objects[switch_b],
+            bw=SWITCH_LINK_BW_MBPS,
+        )
+
+    for edge_switch, host in spec.host_links:
+        net.addLink(
+            host_objects[host],
+            switch_objects[edge_switch],
+            bw=HOST_LINK_BW_MBPS,
+        )
 
     net.build()
-    c0.start()
-    for sw in (s1, s2, s3, s4, s5, s6):
-        sw.start([c0])
+    controller.start()
 
-    for sw in (s1, s2, s3, s4, s5, s6):
-        subprocess.run(
-            ['ovs-vsctl', 'set', 'bridge', sw.name, 'stp_enable=true'],
-            check=True
+    for switch in net.switches:
+        switch.start([controller])
+
+    if enable_stp:
+        for switch in net.switches:
+            subprocess.run(
+                [
+                    "ovs-vsctl",
+                    "set",
+                    "bridge",
+                    switch.name,
+                    "stp_enable=true",
+                ],
+                check=True,
+            )
+        print(f"STP enabled on all {len(net.switches)} switches.")
+    else:
+        print(
+            "WARNING: STP is disabled. Do not use this mode with the current "
+            "flooding-based L2 controller until loop-free forwarding is installed."
         )
-        print("STP enabled on %s" % sw.name)
 
+    counts = spec.counts
+    print(
+        "Fat-Tree k={k}: {switches} switches "
+        "(core={core_switches}, aggregation={aggregation_switches}, "
+        "edge={edge_switches}), {hosts} hosts, "
+        "{inter_switch_links} inter-switch links, "
+        "{host_links} host links.".format(k=k, **counts)
+    )
+    print(
+        f"Link capacities: host-facing={HOST_LINK_BW_MBPS} Mbps, "
+        f"inter-switch={SWITCH_LINK_BW_MBPS} Mbps."
+    )
     return net
 
 
-if __name__ == '__main__':
-    setLogLevel('info')
-    net = build_topology()
-    print("\nTopology up: 6 switches (s1-s2 core, s3-s6 edge), 8 hosts (h1-h8).")
-    print("Waiting 90s for STP to converge and block redundant loop ports...")
-    time.sleep(90)
-    print("STP should be converged now. Try: pingall\n")
-    CLI(net)
-    net.stop()
+if __name__ == "__main__":
+    setLogLevel("info")
+    network = None
+    try:
+        network = build_topology()
+        if ENABLE_STP:
+            print(
+                f"Waiting {STP_CONVERGENCE_SECONDS}s for STP convergence "
+                "before opening the Mininet CLI..."
+            )
+            time.sleep(STP_CONVERGENCE_SECONDS)
+        print("Topology started. Try: pingall\n")
+        CLI(network)
+    finally:
+        if network is not None:
+            network.stop()
