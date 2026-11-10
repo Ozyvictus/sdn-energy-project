@@ -35,6 +35,7 @@ PING_WAIT_SECONDS = 1
 MAX_CONCURRENT_PINGS = 24
 QOS_PAIR_BATCH_SIZE = 24
 QOS_SLOT_BUDGET_SECONDS = 4.0
+MAX_QOS_REQUEST_AGE_SECONDS = 1.0
 ENABLE_ROTATING_IPERF = True
 IPERF_DURATION_SECONDS = 1
 IPERF_PORT = 5201
@@ -349,7 +350,7 @@ class QoSMonitor:
                             age = float("inf")
                         # Requests are published at QoS-slot start. Ignore stale or
                         # malformed requests instead of probing outside their time slot.
-                        if 0.0 <= age <= 2.0:
+                        if 0.0 <= age <= MAX_QOS_REQUEST_AGE_SECONDS:
                             snapshot["_request_age_seconds"] = age
                             self.qos_sequence += 1
                             try:
